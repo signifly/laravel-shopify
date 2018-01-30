@@ -2,6 +2,11 @@
 
 return [
     /*
+     * The profile to use.
+     */
+    'profile' => \Signifly\Shopify\Profiles\CredentialsProfile::class,
+
+    /*
      * The API key from private app credentials.
      */
     'api_key' => env('SHOPIFY_API_KEY'),

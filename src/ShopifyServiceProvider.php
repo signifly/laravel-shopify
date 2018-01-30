@@ -4,6 +4,7 @@ namespace Signifly\Shopify\Laravel;
 
 use Signifly\Shopify\Shopify;
 use Illuminate\Support\ServiceProvider;
+use Signifly\Shopify\Profiles\ProfileContract;
 use Illuminate\Contracts\Foundation\Application;
 
 class ShopifyServiceProvider extends ServiceProvider
@@ -24,7 +25,11 @@ class ShopifyServiceProvider extends ServiceProvider
     protected function setupConfig(Application $app)
     {
         $source = realpath(__DIR__.'/../config/shopify.php');
-        $this->publishes([$source => config_path('shopify.php')]);
+
+        $this->publishes([
+            $source => config_path('shopify.php'),
+        ]);
+
         $this->mergeConfigFrom($source, 'shopify');
     }
 
@@ -39,12 +44,22 @@ class ShopifyServiceProvider extends ServiceProvider
 
         $this->app->singleton(Shopify::class, function () use ($config) {
             return new Shopify(
-                $config['api_key'],
-                $config['password'],
-                $config['handle']
+                $this->getProfile($config)
             );
         });
 
         $this->app->alias(Shopify::class, 'shopify');
+    }
+
+    /**
+     * Get the profile for the Shopify Client instance.
+     *
+     * @param  array $config
+     * @return \Signifly\Shopify\Profiles\ProfileContract
+     */
+    protected function getProfile($config) : ProfileContract
+    {
+        $profileClass = $config['profile'];
+        return new $profileClass($config['api_key'], $config['password'], $config['handle']);
     }
 }
