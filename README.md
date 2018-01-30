@@ -2,16 +2,18 @@
 
 The `signifly/laravel-shopify` package allows you to easily make requests to the Shopify API.
 
-Below is a small example of how to use it. For now it only supports private app credentials.
+Below is a small example of how to use it.
 
 ```php
-$shopify = new \Signifly\Shopify\Shopify('api-key', 'password', 'handle');
+use Signifly\Shopify\Shopify;
+
+$shopify = app()->make(Shopify::class);
 
 // Retrieve all products
 $shopify->products()->all();
 
 // Count all products
-$shopify->products()->cancel();
+$shopify->products()->count();
 
 // Update a product
 $shopify->products()->update($id, $data);
@@ -19,6 +21,8 @@ $shopify->products()->update($id, $data);
 // Delete a product
 $shopify->products()->destroy($id);
 ```
+
+Check the Shopify API reference to see what is available for each resource.
 
 ## Documentation
 Until further documentation is provided, please have a look at the tests.
