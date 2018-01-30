@@ -1,0 +1,53 @@
+{
+    "name": "signifly/laravel-shopify",
+    "description": "Make requests to the Shopify API",
+    "homepage": "https://github.com/signifly/laravel-shopify",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Morten Poul Jensen",
+            "email": "mpj@signifly.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Travis Elkins",
+            "email": "te@signifly.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "^5.5",
+        "signifly/shopify-php-sdk": "^0.0.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.2",
+        "orchestra/testbench": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Signifly\\Shopify\\Laravel\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Signifly\\Shopify\\Laravel\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Signifly\\Shopify\\Laravel\\ShopifyServiceProvider"
+            ],
+            "aliases": {
+                "Shopify": "Signifly\\Shopify\\Laravel\\ShopifyFacade"
+            }
+        }
+    }
+}
