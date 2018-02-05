@@ -3,6 +3,7 @@
 namespace Signifly\Shopify\Laravel;
 
 use Signifly\Shopify\Shopify;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Signifly\Shopify\Profiles\ProfileContract;
 use Illuminate\Contracts\Foundation\Application;
@@ -15,6 +16,10 @@ class ShopifyServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->setupConfig($this->app);
+
+        Route::macro('shopifyWebhooks', function ($url) {
+            return Route::post('laravel-shopify/webhooks', '\Signifly\Shopify\Http\Controllers\WebhookController@handle');
+        });
     }
 
     /**
