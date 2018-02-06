@@ -17,7 +17,7 @@ return [
     'password' => env('SHOPIFY_PASSWORD'),
 
     /*
-     * The shopify handle for you shop.
+     * The shopify handle for your shop.
      */
     'handle' => env('SHOPIFY_HANDLE'),
 
@@ -25,4 +25,9 @@ return [
      * The webhook secret provider to use.
      */
     'webhook_secret_provider' => \Signifly\Shopify\Webhooks\SecretProviders\ConfigSecretProvider::class,
+
+    /*
+     * The shopify webhook secret.
+     */
+    'webhook_secret' => env('SHOPIFY_WEBHOOK_SECRET'),
 ];
