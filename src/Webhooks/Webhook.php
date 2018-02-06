@@ -12,7 +12,7 @@ class Webhook
 
     public function __construct(string $handle, string $topic, string $payload)
     {
-        $this->hand = $handle;
+        $this->handle = $handle;
         $this->payload = $payload;
         $this->$topic = $topic;
     }

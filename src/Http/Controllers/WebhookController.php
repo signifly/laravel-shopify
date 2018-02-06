@@ -18,9 +18,10 @@ class WebhookController extends Controller
     }
 
     /**
-     * [handle description]
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * Handle the incoming webhook.
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
      */
     public function handle(Request $request)
     {

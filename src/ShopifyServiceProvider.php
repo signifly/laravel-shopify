@@ -13,6 +13,8 @@ class ShopifyServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application events.
+     *
+     * @return void
      */
     public function boot()
     {
@@ -22,23 +24,23 @@ class ShopifyServiceProvider extends ServiceProvider
          * @todo Perhaps allow for options allowing a user to modify aspects of the route...?
          */
         Route::macro('shopifyWebhooks', function () {
-            return Route::post('laravel-shopify/webhooks', '\Signifly\Shopify\Http\Controllers\WebhookController@handle');
+            return $this->post('laravel-shopify/webhooks', '\Signifly\Shopify\Http\Controllers\WebhookController@handle');
         });
 
         Request::macro('shopifyShopDomain', function () {
-            return $request->header('X-Shopify-Shop-Domain');
+            return $this->header('X-Shopify-Shop-Domain');
         });
 
         Request::macro('shopifyHmacSha256', function () {
-            return $request->header('X-Shopify-Hmac-Sha256');
+            return $this->header('X-Shopify-Hmac-Sha256');
         });
 
         Request::macro('shopifyShopHandle', function () {
-            return str_before($request->shopifyDomain(), '.myshopify.com');
+            return str_before($this->shopifyDomain(), '.myshopify.com');
         });
 
         Request::macro('shopifyTopic', function () {
-            return $request->header('X-Shopify-Topic');
+            return $this->header('X-Shopify-Topic');
         });
     }
 
@@ -46,6 +48,7 @@ class ShopifyServiceProvider extends ServiceProvider
      * Setup the config.
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
+     * @return void
      */
     protected function setupConfig(Application $app)
     {
@@ -58,6 +61,8 @@ class ShopifyServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
+     *
+     * @return void
      */
     public function register()
     {
