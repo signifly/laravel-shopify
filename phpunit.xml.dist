@@ -20,8 +20,8 @@
         </whitelist>
     </filter>
     <php>
-        <env name="SHOPIFY_API_KEY" value="fb44aa577c0b07fb8bf22f1d3975d1a3" />
-        <env name="SHOPIFY_PASSWORD" value="3d00f045dad78899b4264e9d9c29552d" />
-        <env name="SHOPIFY_HANDLE" value="sika-test" />
+        <env name="SHOPIFY_API_KEY" value="shopify.api.key.goes.here" />
+        <env name="SHOPIFY_PASSWORD" value="shopify.password.goes.here" />
+        <env name="SHOPIFY_HANDLE" value="shopify-handle.goes.here" />
     </php>
 </phpunit>

@@ -49,13 +49,11 @@ class ShopifyServiceProvider extends ServiceProvider
      */
     protected function setupConfig(Application $app)
     {
-        $source = realpath(__DIR__.'/../config/shopify.php');
-
         $this->publishes([
-            $source => config_path('shopify.php'),
-        ]);
+            __DIR__.'/../config/shopify.php' => config_path('shopify.php'),
+        ], 'config');
 
-        $this->mergeConfigFrom($source, 'shopify');
+        $this->mergeConfigFrom(__DIR__.'/../config/shopify.php', 'shopify');
     }
 
     /**
@@ -63,8 +61,6 @@ class ShopifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/shopify.php', 'shopify');
-
         $config = config('shopify');
 
         $this->app->singleton(Shopify::class, function () use ($config) {
