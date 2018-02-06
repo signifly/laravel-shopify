@@ -4,9 +4,10 @@ namespace Signifly\Shopify\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Signifly\Shopify\Webhooks\Webhook;
 use Signifly\Shopify\Events\WebhookReceived;
-use Signifly\Shopify\Http\Controllers\Controller;
+use Signifly\Shopify\Exceptions\WebhookFailed;
 use Signifly\Shopify\Http\Middleware\VerifySignature;
 
 class WebhookController extends Controller
