@@ -20,4 +20,9 @@ return [
      * The shopify handle for you shop.
      */
     'handle' => env('SHOPIFY_HANDLE'),
+
+    /*
+     * The webhook secret provider to use.
+     */
+    'webhook_secret_provider' => \Signifly\Shopify\Webhooks\SecretProviders\ConfigSecretProvider::class,
 ];

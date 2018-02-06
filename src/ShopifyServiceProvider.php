@@ -3,6 +3,8 @@
 namespace Signifly\Shopify\Laravel;
 
 use Signifly\Shopify\Shopify;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Signifly\Shopify\Profiles\ProfileContract;
 use Illuminate\Contracts\Foundation\Application;
@@ -15,6 +17,29 @@ class ShopifyServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->setupConfig($this->app);
+
+        /**
+         * @todo Perhaps allow for options allowing a user to modify aspects of the route...?
+         */
+        Route::macro('shopifyWebhooks', function () {
+            return Route::post('laravel-shopify/webhooks', '\Signifly\Shopify\Http\Controllers\WebhookController@handle');
+        });
+
+        Request::macro('shopifyShopDomain', function () {
+            return $request->header('X-Shopify-Shop-Domain');
+        });
+
+        Request::macro('shopifyHmacSha256', function () {
+            return $request->header('X-Shopify-Hmac-Sha256');
+        });
+
+        Request::macro('shopifyShopHandle', function () {
+            return str_before($request->shopifyDomain(), '.myshopify.com');
+        });
+
+        Request::macro('shopifyTopic', function () {
+            return $request->header('X-Shopify-Topic');
+        });
     }
 
     /**
