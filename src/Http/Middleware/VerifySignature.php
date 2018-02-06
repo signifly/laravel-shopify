@@ -1,6 +1,6 @@
 <?php
 
-namespace Signifly\Shopify\Middlewares;
+namespace Signifly\Shopify\Middleware;
 
 use Closure;
 use Signifly\Shopify\Exceptions\WebhookFailed;
