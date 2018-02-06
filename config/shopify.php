@@ -22,9 +22,9 @@ return [
     'handle' => env('SHOPIFY_HANDLE'),
 
     /*
-     * The shopify webhook secret provider factory to use.
+     * The webhook secret provider to use.
      */
-    'webhook_secret_provider_factory' => \Signifly\Shopify\Webhooks\SecretProviders\ConfigSecretProviderFactory::class,
+    'webhook_secret_provider' => \Signifly\Shopify\Webhooks\SecretProviders\ConfigSecretProvider::class,
 
     /*
      * The shopify webhook secret.

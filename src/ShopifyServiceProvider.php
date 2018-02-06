@@ -4,6 +4,7 @@ namespace Signifly\Shopify\Laravel;
 
 use Signifly\Shopify\Shopify;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Signifly\Shopify\Profiles\ProfileContract;
 use Illuminate\Contracts\Foundation\Application;
@@ -12,13 +13,34 @@ class ShopifyServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application events.
+     *
+     * @return void
      */
     public function boot()
     {
         $this->setupConfig($this->app);
 
-        Route::macro('shopifyWebhooks', function ($url) {
-            return Route::post('laravel-shopify/webhooks', '\Signifly\Shopify\Http\Controllers\WebhookController@handle');
+        /**
+         * @todo Perhaps allow for options allowing a user to modify aspects of the route...?
+         */
+        Route::macro('shopifyWebhooks', function () {
+            return $this->post('laravel-shopify/webhooks', '\Signifly\Shopify\Http\Controllers\WebhookController@handle');
+        });
+
+        Request::macro('shopifyShopDomain', function () {
+            return $this->header('X-Shopify-Shop-Domain');
+        });
+
+        Request::macro('shopifyHmacSha256', function () {
+            return $this->header('X-Shopify-Hmac-Sha256');
+        });
+
+        Request::macro('shopifyShopHandle', function () {
+            return str_before($this->shopifyDomain(), '.myshopify.com');
+        });
+
+        Request::macro('shopifyTopic', function () {
+            return $this->header('X-Shopify-Topic');
         });
     }
 
@@ -26,6 +48,7 @@ class ShopifyServiceProvider extends ServiceProvider
      * Setup the config.
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
+     * @return void
      */
     protected function setupConfig(Application $app)
     {
@@ -38,6 +61,8 @@ class ShopifyServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
+     *
+     * @return void
      */
     public function register()
     {
