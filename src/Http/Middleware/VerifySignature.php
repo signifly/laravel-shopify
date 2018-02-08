@@ -1,6 +1,6 @@
 <?php
 
-namespace Signifly\Shopify\Laravel\Middleware;
+namespace Signifly\Shopify\Laravel\Http\Middleware;
 
 use Closure;
 use Signifly\Shopify\Laravel\Exceptions\WebhookFailed;

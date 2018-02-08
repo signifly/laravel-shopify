@@ -38,7 +38,7 @@ class WebhookController extends Controller
     {
         $topic = $request->shopifyTopic();
 
-        if (! $topic)) {
+        if (! $topic) {
             throw WebhookFailed::missingTopic($request);
         }
 
