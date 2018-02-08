@@ -1,9 +1,9 @@
 <?php
 
-namespace Signifly\Shopify\Middleware;
+namespace Signifly\Shopify\Laravel\Middleware;
 
 use Closure;
-use Signifly\Shopify\Exceptions\WebhookFailed;
+use Signifly\Shopify\Laravel\Exceptions\WebhookFailed;
 
 class VerifySignature
 {

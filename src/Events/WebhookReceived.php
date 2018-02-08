@@ -1,9 +1,9 @@
 <?php
 
-namespace Signifly\Shopify\Events;
+namespace Signifly\Shopify\Laravel\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Signifly\Shopify\Webhooks\Webhook;
+use Signifly\Shopify\Laravel\Webhooks\Webhook;
 
 class WebhookReceived
 {

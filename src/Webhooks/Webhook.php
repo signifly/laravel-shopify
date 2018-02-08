@@ -1,6 +1,6 @@
 <?php
 
-namespace Signifly\Shopify\Webhooks;
+namespace Signifly\Shopify\Laravel\Webhooks;
 
 class Webhook
 {

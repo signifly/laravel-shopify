@@ -1,6 +1,6 @@
 <?php
 
-namespace Signifly\Shopify\Exceptions;
+namespace Signifly\Shopify\Laravel\Exceptions;
 
 use Exception;
 

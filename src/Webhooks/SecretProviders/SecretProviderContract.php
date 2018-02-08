@@ -1,6 +1,6 @@
 <?php
 
-namespace Signifly\Shopify\Webhooks\SecretProviders;
+namespace Signifly\Shopify\Laravel\Webhooks\SecretProviders;
 
 interface SecretProviderContract
 {
