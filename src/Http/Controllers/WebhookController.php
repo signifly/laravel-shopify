@@ -28,7 +28,7 @@ class WebhookController extends Controller
         try {
             event(new WebhookReceived($this->buildWebhook($request)));
 
-            return response(null, 200);
+            return response()->json();
         } catch (Exception $e) {
             return response('Error handling webhook', 500);
         }
@@ -42,11 +42,6 @@ class WebhookController extends Controller
             throw WebhookFailed::missingTopic($request);
         }
 
-        return new Webhook($request->shopifyShopHandle(), $topic, $this->getPayload($request));
-    }
-
-    protected function getPayload(Request $request)
-    {
-        return json_decode($request->getContent(), true);
+        return new Webhook($request->shopifyShopDomain(), $topic, $request->getContent());
     }
 }
