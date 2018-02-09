@@ -4,22 +4,22 @@ namespace Signifly\Shopify\Laravel\Webhooks;
 
 class Webhook
 {
-    protected $handle;
+    protected $domain;
 
     protected $payload;
 
     protected $topic;
 
-    public function __construct(string $handle, string $topic, string $payload)
+    public function __construct(string $domain, string $topic, string $payload)
     {
-        $this->handle = $handle;
+        $this->domain = $domain;
         $this->payload = $payload;
         $this->$topic = $topic;
     }
 
-    public function handle() : string
+    public function domain() : string
     {
-        return $this->handle;
+        return $this->domain;
     }
 
     public function payload() : string
