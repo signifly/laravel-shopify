@@ -3,6 +3,7 @@
 namespace Signifly\Shopify\Laravel\Http\Middleware;
 
 use Closure;
+use Facades\Signifly\Shopify\Shopify;
 use Signifly\Shopify\Laravel\Exceptions\WebhookFailed;
 
 class VerifySignature
@@ -15,7 +16,7 @@ class VerifySignature
             throw WebhookFailed::missingSignature();
         }
 
-        $secret = $this->getSecretProvider($request)->getSecret();
+        $secret = $this->getSecretProvider()->getSecret($request->shopifyShopDomain());
 
         if (empty($secret)) {
             throw WebhookFailed::signingSecretNotSet();
@@ -28,10 +29,10 @@ class VerifySignature
         return $next($request);
     }
 
-    protected function getSecretProvider($request)
+    protected function getSecretProvider()
     {
         $secretProviderClass = config('shopify.webhook_secret_provider');
 
-        return (new $secretProviderClass())->getSecret($request->shopifyShopDomain());
+        return new $secretProviderClass();
     }
 }
