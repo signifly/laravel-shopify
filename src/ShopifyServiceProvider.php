@@ -86,6 +86,7 @@ class ShopifyServiceProvider extends ServiceProvider
     protected function getProfile($config) : ProfileContract
     {
         $profileClass = $config['profile'];
-        return new $profileClass($config['api_key'], $config['password'], $config['handle']);
+
+        return new $profileClass();
     }
 }
