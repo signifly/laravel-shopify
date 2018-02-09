@@ -4,7 +4,7 @@ return [
     /*
      * The profile to use.
      */
-    'profile' => \Signifly\Shopify\Profiles\CredentialsProfile::class,
+    'profile' => \Signifly\Shopify\Laravel\Profiles\ConfigProfile::class,
 
     /*
      * The API key from private app credentials.
