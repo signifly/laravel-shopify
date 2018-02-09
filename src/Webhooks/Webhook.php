@@ -10,11 +10,11 @@ class Webhook
 
     protected $topic;
 
-    public function __construct(string $domain, string $topic, string $payload)
+    public function __construct(string $domain, string $topic, array $payload)
     {
         $this->domain = $domain;
         $this->payload = $payload;
-        $this->$topic = $topic;
+        $this->topic = $topic;
     }
 
     public function domain() : string
@@ -22,7 +22,7 @@ class Webhook
         return $this->domain;
     }
 
-    public function payload() : string
+    public function payload() : array
     {
         return $this->payload;
     }

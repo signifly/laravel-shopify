@@ -42,6 +42,6 @@ class WebhookController extends Controller
             throw WebhookFailed::missingTopic($request);
         }
 
-        return new Webhook($request->shopifyShopDomain(), $topic, $request->getContent());
+        return new Webhook($request->shopifyShopDomain(), $topic, json_decode($request->getContent(), true));
     }
 }
