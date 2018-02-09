@@ -6,6 +6,6 @@ class ConfigSecretProvider implements SecretProviderContract
 {
     public function getSecret(string $domain) : string
     {
-        return config('shopify.webhook_secret');
+        return (string) config('shopify.webhook_secret');
     }
 }
