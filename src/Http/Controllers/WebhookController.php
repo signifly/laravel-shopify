@@ -26,7 +26,7 @@ class WebhookController extends Controller
     {
         try {
             Event::dispatch(
-                $this->getEventName($webhook),
+                $this->getEventName($this->buildWebhook($request)),
                 $this->buildWebhook($request)
             );
 
