@@ -6,7 +6,7 @@ use Closure;
 use Facades\Signifly\Shopify\Shopify;
 use Signifly\Shopify\Laravel\Exceptions\WebhookFailed;
 
-class VerifySignature
+class ValidateWebhook
 {
     public function handle($request, Closure $next)
     {
@@ -24,6 +24,10 @@ class VerifySignature
 
         if (! Shopify::verifyWebhook($signature, $request->getContent(), $secret)) {
             throw WebhookFailed::invalidSignature($signature);
+        }
+
+        if (! $request->shopifyTopic()) {
+            throw WebhookFailed::missingTopic($request);
         }
 
         return $next($request);
