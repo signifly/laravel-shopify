@@ -5,6 +5,7 @@ namespace Signifly\Shopify\Laravel\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Event;
 use Signifly\Shopify\Laravel\Webhooks\Webhook;
 use Signifly\Shopify\Laravel\Events\WebhookReceived;
 use Signifly\Shopify\Laravel\Exceptions\WebhookFailed;
@@ -26,7 +27,7 @@ class WebhookController extends Controller
     public function handle(Request $request)
     {
         try {
-            event(new WebhookReceived($this->buildWebhook($request)));
+            $this->dispatchEvents($this->buildWebhook($request));
 
             return response()->json();
         } catch (Exception $e) {
@@ -43,5 +44,23 @@ class WebhookController extends Controller
         }
 
         return new Webhook($request->shopifyShopDomain(), $topic, json_decode($request->getContent(), true));
+    }
+
+    /**
+     * Fire a generic event, then a specific event for the given Shopify "topic".
+     *
+     * @param  Webhook $webhook [description]
+     * @return [type]           [description]
+     */
+    protected function dispatchEvents(Webhook $webhook)
+    {
+        event(new WebhookReceived($webhook));
+
+        Event::dispatch($this->getEventName($webhook), $webhook);
+    }
+
+    protected function getEventName(Webhook $webhook)
+    {
+        return 'laravel-shopify-webhook:' . str_replace('/', '-', $webhook->topic());
     }
 }
