@@ -1,10 +1,10 @@
 <?php
 
-namespace Signifly\Shopify\Laravel;
+namespace Signifly\Shopify\Laravel\Support\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class ShopifyFacade extends Facade
+class Shopify extends Facade
 {
     /**
      * Get the registered name of the component.
