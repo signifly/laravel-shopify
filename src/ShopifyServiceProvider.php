@@ -2,7 +2,6 @@
 
 namespace Signifly\Shopify\Laravel;
 
-use Signifly\Shopify\Shopify;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -66,11 +65,9 @@ class ShopifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $config = config('shopify');
-
-        $this->app->singleton(Shopify::class, function () use ($config) {
+        $this->app->singleton(Shopify::class, function () {
             return new Shopify(
-                $this->getProfile($config)
+                $this->getProfile(config('shopify'))
             );
         });
 
@@ -83,7 +80,7 @@ class ShopifyServiceProvider extends ServiceProvider
      * @param  array $config
      * @return \Signifly\Shopify\Profiles\ProfileContract
      */
-    protected function getProfile($config) : ProfileContract
+    protected function getProfile(array $config) : ProfileContract
     {
         $profileClass = $config['profile'];
 
