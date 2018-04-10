@@ -17,9 +17,9 @@ return [
     'password' => env('SHOPIFY_PASSWORD'),
 
     /*
-     * The shopify handle for your shop.
+     * The shopify domain for your shop.
      */
-    'handle' => env('SHOPIFY_HANDLE'),
+    'domain' => env('SHOPIFY_DOMAIN'),
 
     /*
      * The webhook secret provider to use.

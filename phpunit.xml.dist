@@ -22,6 +22,6 @@
     <php>
         <env name="SHOPIFY_API_KEY" value="shopify.api.key.goes.here" />
         <env name="SHOPIFY_PASSWORD" value="shopify.password.goes.here" />
-        <env name="SHOPIFY_HANDLE" value="shopify-handle.goes.here" />
+        <env name="SHOPIFY_DOMAIN" value="shopify-domain.goes.here" />
     </php>
 </phpunit>

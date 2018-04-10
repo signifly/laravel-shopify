@@ -10,6 +10,6 @@ class ConfigProfile extends CredentialsProfile
     {
         $config = config('shopify');
 
-        parent::__construct($config['api_key'], $config['password'], $config['handle']);
+        parent::__construct($config['api_key'], $config['password'], $config['domain']);
     }
 }
