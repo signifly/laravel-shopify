@@ -23,7 +23,7 @@ class ShopifyServiceProvider extends ServiceProvider
          * @todo Perhaps allow for options allowing a user to modify aspects of the route...?
          */
         Route::macro('shopifyWebhooks', function () {
-            return $this->post('laravel-shopify/webhooks', '\Signifly\Shopify\Laravel\Http\Controllers\WebhookController@handle');
+            return $this->post('shopify/webhooks', '\Signifly\Shopify\Laravel\Http\Controllers\WebhookController@handle');
         });
 
         Request::macro('shopifyShopDomain', function () {
