@@ -46,7 +46,7 @@
                 "Signifly\\Shopify\\Laravel\\ShopifyServiceProvider"
             ],
             "aliases": {
-                "Shopify": "Signifly\\Shopify\\Laravel\\ShopifyFacade"
+                "Shopify": "Signifly\\Shopify\\Laravel\\Support\\Facades\\Shopify"
             }
         }
     }
