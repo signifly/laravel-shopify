@@ -16,7 +16,7 @@ class DefaultHandlerStackProvider implements HandlerStackProviderContract
         return $handlerStack;
     }
 
-    protected function getRateLimitProvider() : RateLimitProvider
+    public function getRateLimitProvider() : RateLimitProvider
     {
         return new DefaultRateLimitProvider(
             new DefaultRateLimitCalculator(

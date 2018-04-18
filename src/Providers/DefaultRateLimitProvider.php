@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Cache;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Concat\Http\Middleware\RateLimitProvider;
+use Signifly\Shopify\RateLimit\RateLimitCalculatorContract;
 
 class DefaultRateLimitProvider implements RateLimitProvider
 {

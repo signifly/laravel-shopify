@@ -9,5 +9,5 @@ interface HandlerStackProviderContract
 {
     public function getHandlerStack() : HandlerStack;
 
-    protected function getRateLimitProvider() : RateLimitProvider;
+    public function getRateLimitProvider() : RateLimitProvider;
 }
