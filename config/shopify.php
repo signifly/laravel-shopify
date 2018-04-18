@@ -9,7 +9,7 @@ return [
     /*
      * The handlerStack to use.
      */
-    'handlerStackProvider' => \Signifly\Shopify\Laravel\HandlerStacks\DefaultHandlerStackProvider::class,
+    'handlerStackProvider' => \Signifly\Shopify\Laravel\Providers\DefaultHandlerStackProvider::class,
 
     'credentials' => [
 
