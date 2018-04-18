@@ -18,6 +18,7 @@
     "require": {
         "php": "^7.1",
         "illuminate/support": "^5.6",
+        "rtheunissen/guzzle-rate-limiter": "^1.0",
         "signifly/shopify-php-sdk": "0.0.*"
     },
     "require-dev": {
