@@ -11,10 +11,12 @@ use Signifly\Shopify\RateLimit\RateLimitCalculatorContract;
 class DefaultRateLimitProvider implements RateLimitProvider
 {
     protected $calculator;
+    protected $prefix;
 
-    public function __construct(RateLimitCalculatorContract $calculator)
+    public function __construct(RateLimitCalculatorContract $calculator, string $prefix = '')
     {
         $this->calculator = $calculator;
+        $this->prefix = $prefix;
     }
 
     /**
@@ -24,7 +26,7 @@ class DefaultRateLimitProvider implements RateLimitProvider
      */
     public function getLastRequestTime()
     {
-        return Cache::get('last_request_time');
+        return Cache::get($this->prefix . 'last_request_time');
     }
 
     /**
@@ -33,7 +35,7 @@ class DefaultRateLimitProvider implements RateLimitProvider
      */
     public function setLastRequestTime()
     {
-        return Cache::forever('last_request_time', microtime(true));
+        return Cache::forever($this->prefix . 'last_request_time', microtime(true));
     }
 
     /**
@@ -63,7 +65,7 @@ class DefaultRateLimitProvider implements RateLimitProvider
      */
     public function getRequestAllowance(RequestInterface $request)
     {
-        return Cache::get('request_allowance', 0.5);
+        return Cache::get($this->prefix . 'request_allowance', 0.5);
     }
 
     /**
@@ -74,6 +76,8 @@ class DefaultRateLimitProvider implements RateLimitProvider
      */
     public function setRequestAllowance(ResponseInterface $response)
     {
-        Cache::forever('request_allowance', $this->calculator->calculate());
+        $callLimitHeader = collect($response->getHeader('HTTP_X_SHOPIFY_SHOP_API_CALL_LIMIT'))->first();
+        [$callsMade, $callsLimit] = explode('/', $callLimitHeader);
+        Cache::forever($this->prefix . 'request_allowance', $this->calculator->calculate($callsMade, $callsLimit));
     }
 }
