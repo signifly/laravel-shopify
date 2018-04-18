@@ -7,27 +7,59 @@ return [
     'profile' => \Signifly\Shopify\Laravel\Profiles\ConfigProfile::class,
 
     /*
-     * The API key from private app credentials.
+     * The handlerStack to use.
      */
-    'api_key' => env('SHOPIFY_API_KEY'),
+    'handlerStackProvider' => \Signifly\Shopify\Laravel\HandlerStacks\DefaultHandlerStackProvider::class,
 
-    /*
-     * The password from private app credentials.
-     */
-    'password' => env('SHOPIFY_PASSWORD'),
+    'credentials' => [
 
-    /*
-     * The shopify domain for your shop.
-     */
-    'domain' => env('SHOPIFY_DOMAIN'),
+        /*
+         * The API key from private app credentials.
+         */
+        'api_key' => env('SHOPIFY_API_KEY'),
 
-    /*
-     * The webhook secret provider to use.
-     */
-    'webhook_secret_provider' => \Signifly\Shopify\Laravel\Webhooks\SecretProviders\ConfigSecretProvider::class,
+        /*
+         * The password from private app credentials.
+         */
+        'password' => env('SHOPIFY_PASSWORD'),
 
-    /*
-     * The shopify webhook secret.
-     */
-    'webhook_secret' => env('SHOPIFY_WEBHOOK_SECRET'),
+        /*
+         * The shopify domain for your shop.
+         */
+        'domain' => env('SHOPIFY_DOMAIN'),
+
+    ],
+
+    'rate_limit' => [
+
+        /*
+         * The buffer from the max calls limit.
+         */
+        'buffer' => 3,
+
+        /*
+         * The request cycle.
+         */
+        'cycle' => 0.5,
+
+        /*
+         * The processes that can run in parallel.
+         */
+        'processes' => 1,
+
+    ],
+
+    'webhooks' => [
+
+        /*
+         * The webhook secret provider to use.
+         */
+        'secret_provider' => \Signifly\Shopify\Laravel\Webhooks\SecretProviders\ConfigSecretProvider::class,
+
+        /*
+         * The shopify webhook secret.
+         */
+        'secret' => env('SHOPIFY_WEBHOOK_SECRET'),
+
+    ],
 ];

@@ -8,8 +8,10 @@ class ConfigProfile extends CredentialsProfile
 {
     public function __construct()
     {
-        $config = config('shopify');
+        $config = config('shopify.credentials');
+        $providerClass = config('shopify.handlerStackProvider');
+        $provider = new $providerClass;
 
-        parent::__construct($config['api_key'], $config['password'], $config['domain']);
+        parent::__construct($config['api_key'], $config['password'], $config['domain'], $provider->getHandlerStack());
     }
 }

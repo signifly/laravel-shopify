@@ -35,7 +35,7 @@ class ValidateWebhook
 
     protected function getSecretProvider()
     {
-        $secretProviderClass = config('shopify.webhook_secret_provider');
+        $secretProviderClass = config('shopify.webhooks.secret_provider');
 
         return new $secretProviderClass();
     }
