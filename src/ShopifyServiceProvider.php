@@ -53,7 +53,7 @@ class ShopifyServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/../config/shopify.php' => config_path('shopify.php'),
-        ], 'config');
+        ], 'laravel-shopify');
 
         $this->mergeConfigFrom(__DIR__.'/../config/shopify.php', 'shopify');
     }
