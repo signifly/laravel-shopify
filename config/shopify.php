@@ -38,7 +38,7 @@ return [
         'buffer' => 3,
 
         /*
-         * The request cycle.
+         * The request cycle / leak rate in percentage per second.
          */
         'cycle' => 0.5,
 

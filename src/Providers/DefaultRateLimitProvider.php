@@ -65,7 +65,7 @@ class DefaultRateLimitProvider implements RateLimitProvider
      */
     public function getRequestAllowance(RequestInterface $request)
     {
-        return Cache::get($this->prefix . 'request_allowance', 0.5);
+        return Cache::get($this->prefix . 'request_allowance', config('shopify.rate_limit.cycle'));
     }
 
     /**
