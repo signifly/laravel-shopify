@@ -76,8 +76,28 @@ class DefaultRateLimitProvider implements RateLimitProvider
      */
     public function setRequestAllowance(ResponseInterface $response)
     {
-        $callLimitHeader = collect($response->getHeader('HTTP_X_SHOPIFY_SHOP_API_CALL_LIMIT'))->first();
-        [$callsMade, $callsLimit] = explode('/', $callLimitHeader);
-        Cache::forever($this->prefix . 'request_allowance', $this->calculator->calculate($callsMade, $callsLimit));
+        Cache::forever($this->prefix . 'request_allowance', $this->calculateAllowanceFrom($response));
+    }
+
+    /**
+     * Calculate the request allowance from the response.
+     *
+     * @param  ResponseInterface $response
+     * @return float
+     */
+    protected function calculateAllowanceFrom(ResponseInterface $response)
+    {
+        $callLimitHeader = collect(
+            $response->getHeader('HTTP_X_SHOPIFY_SHOP_API_CALL_LIMIT')
+        )->first();
+
+        if ($callLimitHeader) {
+            [$callsMade, $callsLimit] = explode('/', $callLimitHeader);
+            return $this->calculator->calculate($callsMade, $callsLimit);
+        }
+
+        return floatval(
+            config('shopify.rate_limit.processes') * config('shopify.rate_limit.cycle')
+        );
     }
 }
