@@ -13,6 +13,7 @@ class DefaultHandlerStackProvider implements HandlerStackProviderContract
     {
         $handlerStack = HandlerStack::create();
         $handlerStack->push(new RateLimiter($this->getRateLimitProvider()));
+
         return $handlerStack;
     }
 

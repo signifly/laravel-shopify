@@ -47,6 +47,6 @@ class WebhookController extends Controller
 
     protected function getEventName(Webhook $webhook)
     {
-        return 'laravel-shopify-webhook.' . str_replace('/', '-', $webhook->topic());
+        return 'laravel-shopify-webhook.'.str_replace('/', '-', $webhook->topic());
     }
 }
