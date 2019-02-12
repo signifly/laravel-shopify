@@ -26,7 +26,7 @@ class DefaultRateLimitProvider implements RateLimitProvider
      */
     public function getLastRequestTime()
     {
-        return Cache::get($this->prefix . 'last_request_time');
+        return Cache::get($this->prefix.'last_request_time');
     }
 
     /**
@@ -35,7 +35,7 @@ class DefaultRateLimitProvider implements RateLimitProvider
      */
     public function setLastRequestTime()
     {
-        return Cache::forever($this->prefix . 'last_request_time', microtime(true));
+        return Cache::forever($this->prefix.'last_request_time', microtime(true));
     }
 
     /**
@@ -65,7 +65,7 @@ class DefaultRateLimitProvider implements RateLimitProvider
      */
     public function getRequestAllowance(RequestInterface $request)
     {
-        return Cache::get($this->prefix . 'request_allowance', config('shopify.rate_limit.cycle'));
+        return Cache::get($this->prefix.'request_allowance', config('shopify.rate_limit.cycle'));
     }
 
     /**
@@ -76,7 +76,7 @@ class DefaultRateLimitProvider implements RateLimitProvider
      */
     public function setRequestAllowance(ResponseInterface $response)
     {
-        Cache::forever($this->prefix . 'request_allowance', $this->calculateAllowanceFrom($response));
+        Cache::forever($this->prefix.'request_allowance', $this->calculateAllowanceFrom($response));
     }
 
     /**
@@ -93,6 +93,7 @@ class DefaultRateLimitProvider implements RateLimitProvider
 
         if ($callLimitHeader) {
             [$callsMade, $callsLimit] = explode('/', $callLimitHeader);
+
             return $this->calculator->calculate($callsMade, $callsLimit);
         }
 

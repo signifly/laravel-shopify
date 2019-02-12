@@ -19,7 +19,7 @@ class ShopifyServiceProvider extends ServiceProvider
     {
         $this->setupConfig($this->app);
 
-        /**
+        /*
          * @todo Perhaps allow for options allowing a user to modify aspects of the route...?
          */
         Route::macro('shopifyWebhooks', function () {
