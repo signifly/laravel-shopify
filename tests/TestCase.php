@@ -7,7 +7,7 @@ use Signifly\Shopify\Laravel\ShopifyServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->setApplicationKey();
 
