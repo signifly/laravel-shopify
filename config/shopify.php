@@ -28,6 +28,11 @@ return [
          */
         'domain' => env('SHOPIFY_DOMAIN'),
 
+        /*
+         * The shopify api version.
+         */
+        'api_version' => env('SHOPIFY_API_VERSION'),
+
     ],
 
     'rate_limit' => [

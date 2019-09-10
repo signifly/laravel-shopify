@@ -12,6 +12,12 @@ class ConfigProfile extends CredentialsProfile
         $providerClass = config('shopify.handlerStackProvider');
         $provider = new $providerClass;
 
-        parent::__construct($config['api_key'], $config['password'], $config['domain'], $provider->getHandlerStack());
+        parent::__construct(
+            $config['api_key'],
+            $config['password'],
+            $config['domain'],
+            $config['api_version'],
+            $provider->getHandlerStack()
+        );
     }
 }
