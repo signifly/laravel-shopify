@@ -2,8 +2,8 @@
 
 namespace Signifly\Shopify\Laravel;
 
-use Signifly\Shopify\Shopify as BaseShopify;
 use Signifly\Shopify\Profiles\ProfileContract;
+use Signifly\Shopify\Shopify as BaseShopify;
 
 class Shopify extends BaseShopify
 {

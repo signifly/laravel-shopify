@@ -6,8 +6,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Event;
-use Signifly\Shopify\Laravel\Webhooks\Webhook;
 use Signifly\Shopify\Laravel\Http\Middleware\ValidateWebhook;
+use Signifly\Shopify\Laravel\Webhooks\Webhook;
 
 class WebhookController extends Controller
 {

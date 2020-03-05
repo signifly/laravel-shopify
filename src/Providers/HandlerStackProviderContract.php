@@ -2,8 +2,8 @@
 
 namespace Signifly\Shopify\Laravel\Providers;
 
-use GuzzleHttp\HandlerStack;
 use Concat\Http\Middleware\RateLimitProvider;
+use GuzzleHttp\HandlerStack;
 
 interface HandlerStackProviderContract
 {

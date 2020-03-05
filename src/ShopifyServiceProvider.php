@@ -2,11 +2,11 @@
 
 namespace Signifly\Shopify\Laravel;
 
-use Illuminate\Support\Facades\Route;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Signifly\Shopify\Profiles\ProfileContract;
-use Illuminate\Contracts\Foundation\Application;
 
 class ShopifyServiceProvider extends ServiceProvider
 {

@@ -2,9 +2,9 @@
 
 namespace Signifly\Shopify\Laravel\Providers;
 
-use GuzzleHttp\HandlerStack;
 use Concat\Http\Middleware\RateLimiter;
 use Concat\Http\Middleware\RateLimitProvider;
+use GuzzleHttp\HandlerStack;
 use Signifly\Shopify\RateLimit\DefaultRateLimitCalculator;
 
 class DefaultHandlerStackProvider implements HandlerStackProviderContract

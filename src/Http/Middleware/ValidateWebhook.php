@@ -3,8 +3,8 @@
 namespace Signifly\Shopify\Laravel\Http\Middleware;
 
 use Closure;
-use Signifly\Shopify\Laravel\Support\Facades\Shopify;
 use Signifly\Shopify\Laravel\Exceptions\WebhookFailed;
+use Signifly\Shopify\Laravel\Support\Facades\Shopify;
 
 class ValidateWebhook
 {
