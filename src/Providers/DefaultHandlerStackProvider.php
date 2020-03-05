@@ -9,7 +9,7 @@ use Signifly\Shopify\RateLimit\DefaultRateLimitCalculator;
 
 class DefaultHandlerStackProvider implements HandlerStackProviderContract
 {
-    public function getHandlerStack() : HandlerStack
+    public function getHandlerStack(): HandlerStack
     {
         $handlerStack = HandlerStack::create();
         $handlerStack->push(new RateLimiter($this->getRateLimitProvider()));
@@ -17,7 +17,7 @@ class DefaultHandlerStackProvider implements HandlerStackProviderContract
         return $handlerStack;
     }
 
-    public function getRateLimitProvider() : RateLimitProvider
+    public function getRateLimitProvider(): RateLimitProvider
     {
         return new DefaultRateLimitProvider(
             new DefaultRateLimitCalculator(

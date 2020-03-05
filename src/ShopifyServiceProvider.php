@@ -80,7 +80,7 @@ class ShopifyServiceProvider extends ServiceProvider
      * @param  array $config
      * @return \Signifly\Shopify\Profiles\ProfileContract
      */
-    protected function getProfile(array $config) : ProfileContract
+    protected function getProfile(array $config): ProfileContract
     {
         $profileClass = $config['profile'];
 

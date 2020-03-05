@@ -7,7 +7,7 @@ use GuzzleHttp\HandlerStack;
 
 interface HandlerStackProviderContract
 {
-    public function getHandlerStack() : HandlerStack;
+    public function getHandlerStack(): HandlerStack;
 
-    public function getRateLimitProvider() : RateLimitProvider;
+    public function getRateLimitProvider(): RateLimitProvider;
 }

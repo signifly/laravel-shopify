@@ -17,7 +17,7 @@ class Shopify extends BaseShopify
      * @param  ProfileContract $profile
      * @return self
      */
-    public function swapProfile(ProfileContract $profile) : self
+    public function swapProfile(ProfileContract $profile): self
     {
         return parent::swap($profile);
     }

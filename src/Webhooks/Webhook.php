@@ -17,17 +17,17 @@ class Webhook
         $this->topic = $topic;
     }
 
-    public function domain() : string
+    public function domain(): string
     {
         return $this->domain;
     }
 
-    public function payload() : array
+    public function payload(): array
     {
         return $this->payload;
     }
 
-    public function topic() : string
+    public function topic(): string
     {
         return $this->topic;
     }
