@@ -8,22 +8,17 @@
             "name": "Morten Poul Jensen",
             "email": "mpj@signifly.com",
             "role": "Developer"
-        },
-        {
-            "name": "Travis Elkins",
-            "email": "te@signifly.com",
-            "role": "Developer"
         }
     ],
     "require": {
         "php": "^7.2.5",
-        "illuminate/support": "^6.0|^7.0",
+        "illuminate/support": "^6.0|^7.0|^8.0",
         "rtheunissen/guzzle-rate-limiter": "^1.0",
         "signifly/shopify-php-sdk": "0.4.*"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0|^8.0|^9.0",
-        "orchestra/testbench": "^4.0|^5.0"
+        "orchestra/testbench": "^4.0|^5.0|^6.0"
     },
     "autoload": {
         "psr-4": {
