@@ -64,7 +64,7 @@ class ShopifyServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(Shopify::class, function () {
-            return new Shopify();
+            return Factory::fromConfig();
         });
 
         $this->app->alias(Shopify::class, 'shopify');

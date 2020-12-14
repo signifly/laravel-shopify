@@ -25,4 +25,9 @@ abstract class TestCase extends Orchestra
     {
         putenv('APP_KEY=mysecretkey');
     }
+
+    protected function getShopUrl(): string
+    {
+
+    }
 }
