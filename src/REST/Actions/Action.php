@@ -2,7 +2,6 @@
 
 namespace Signifly\Shopify\REST\Actions;
 
-use Illuminate\Support\Collection;
 use Signifly\Shopify\REST\ResourceKey;
 use Signifly\Shopify\REST\Resources\ApiResource;
 use Signifly\Shopify\REST\TransformsResources;
@@ -22,31 +21,6 @@ abstract class Action
     {
         $this->shopify = $shopify;
         $this->resourceKey = $resourceKey ?? ResourceKey::fromAction(static::class);
-    }
-
-    public function all(array $params = []): Collection
-    {
-        $response = $this->shopify->get($this->resourceKey->plural().'.json');
-
-        return $this->transformCollectionFromResponse($response);
-    }
-
-    public function create(array $data): ApiResource
-    {
-        $response = $this->shopify->post($this->resourceKey->plural().'.json', [
-            $this->resourceKey->singular() => $data,
-        ]);
-
-        return $this->transformItemFromResponse($response);
-    }
-
-    public function update($id, array $data): ApiResource
-    {
-        $response = $this->shopify->put($this->resourceKey->plural().'/'.$id.'.json', [
-            $this->resourceKey->singular() => $data,
-        ]);
-
-        return $this->transformItemFromResponse($response);
     }
 
     protected function getResourceClass(): string
