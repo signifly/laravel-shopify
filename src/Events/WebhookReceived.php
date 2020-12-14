@@ -1,6 +1,6 @@
 <?php
 
-namespace Signifly\Shopify\Laravel\Events;
+namespace Signifly\Shopify\Events;
 
 use Illuminate\Queue\SerializesModels;
 use Signifly\Shopify\Laravel\Webhooks\Webhook;

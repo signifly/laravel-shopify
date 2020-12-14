@@ -59,7 +59,7 @@ return [
         /*
          * The webhook secret provider to use.
          */
-        'secret_provider' => \Signifly\Shopify\Laravel\Webhooks\SecretProviders\ConfigSecretProvider::class,
+        'secret_provider' => \Signifly\Shopify\Webhooks\ConfigSecretProvider::class,
 
         /*
          * The shopify webhook secret.

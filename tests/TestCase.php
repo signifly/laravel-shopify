@@ -1,9 +1,9 @@
 <?php
 
-namespace Signifly\Shopify\Laravel\Test;
+namespace Signifly\Shopify\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
-use Signifly\Shopify\Laravel\ShopifyServiceProvider;
+use Signifly\Shopify\ShopifyServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
@@ -14,11 +14,6 @@ abstract class TestCase extends Orchestra
         parent::setUp();
     }
 
-    /**
-     * @param \Illuminate\Foundation\Application $app
-     *
-     * @return array
-     */
     protected function getPackageProviders($app)
     {
         return [

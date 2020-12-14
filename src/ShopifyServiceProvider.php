@@ -1,12 +1,14 @@
 <?php
 
-namespace Signifly\Shopify\Laravel;
+namespace Signifly\Shopify;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Signifly\Shopify\Profiles\ProfileContract;
+use Signifly\Shopify\Http\Controllers\WebhookController;
+use Signifly\Shopify\Webhooks\SecretProvider;
+use Signifly\Shopify\Webhooks\Webhook;
 
 class ShopifyServiceProvider extends ServiceProvider
 {
@@ -23,23 +25,19 @@ class ShopifyServiceProvider extends ServiceProvider
          * @todo Perhaps allow for options allowing a user to modify aspects of the route...?
          */
         Route::macro('shopifyWebhooks', function () {
-            return $this->post('shopify/webhooks', '\Signifly\Shopify\Laravel\Http\Controllers\WebhookController@handle');
+            return $this->post('shopify/webhooks', [WebhookController::class, 'handle']);
         });
 
         Request::macro('shopifyShopDomain', function () {
-            return $this->header('X-Shopify-Shop-Domain');
+            return $this->header(Webhook::HEADER_SHOP_DOMAIN);
         });
 
-        Request::macro('shopifyHmacSha256', function () {
-            return $this->header('X-Shopify-Hmac-Sha256');
-        });
-
-        Request::macro('shopifyShopHandle', function () {
-            return str_before($this->shopifyDomain(), '.myshopify.com');
+        Request::macro('shopifyHmacSignature', function () {
+            return $this->header(Webhook::HEADER_HMAC_SIGNATURE);
         });
 
         Request::macro('shopifyTopic', function () {
-            return $this->header('X-Shopify-Topic');
+            return $this->header(Webhook::HEADER_TOPIC);
         });
     }
 
@@ -66,24 +64,15 @@ class ShopifyServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(Shopify::class, function () {
-            return new Shopify(
-                $this->getProfile(config('shopify'))
-            );
+            return new Shopify();
         });
 
         $this->app->alias(Shopify::class, 'shopify');
-    }
 
-    /**
-     * Get the profile for the Shopify Client instance.
-     *
-     * @param  array $config
-     * @return \Signifly\Shopify\Profiles\ProfileContract
-     */
-    protected function getProfile(array $config): ProfileContract
-    {
-        $profileClass = $config['profile'];
+        $this->app->singleton(SecretProvider::class, function (Application $app) {
+            $secretProvider = config('shopify.webhooks.secret_provider');
 
-        return new $profileClass();
+            return $app->make($secretProvider);
+        });
     }
 }
