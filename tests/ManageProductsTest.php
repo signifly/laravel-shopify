@@ -87,4 +87,23 @@ class ManageProductsTest extends TestCase
         });
         $this->assertInstanceOf(ProductResource::class, $resource);
     }
+
+    /** @test **/
+    public function it_deletes_a_product()
+    {
+        Http::fake([
+            '*' => Http::response(),
+        ]);
+
+        $id = 1234;
+
+        $this->shopify->products()->destroy($id);
+
+        Http::assertSent(function (Request $request) use ($id) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/products/'.$id.'.json', $request->url());
+            $this->assertEquals('DELETE', $request->method());
+
+            return true;
+        });
+    }
 }

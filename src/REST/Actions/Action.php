@@ -2,6 +2,7 @@
 
 namespace Signifly\Shopify\REST\Actions;
 
+use Signifly\Shopify\REST\Path;
 use Signifly\Shopify\REST\ResourceKey;
 use Signifly\Shopify\REST\Resources\ApiResource;
 use Signifly\Shopify\REST\TransformsResources;
@@ -41,5 +42,10 @@ abstract class Action
     protected function getResourceKey(): ResourceKey
     {
         return $this->resourceKey;
+    }
+
+    protected function path(?int $id = null): Path
+    {
+        return Path::make($this->resourceKey)->withId($id);
     }
 }

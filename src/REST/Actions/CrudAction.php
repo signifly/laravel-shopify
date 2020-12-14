@@ -9,7 +9,7 @@ abstract class CrudAction extends Action
 {
     public function all(array $params = []): Collection
     {
-        $response = $this->shopify->get($this->resourceKey->plural().'.json');
+        $response = $this->shopify->get($this->path());
 
         return $this->transformCollectionFromResponse($response);
     }
@@ -21,7 +21,7 @@ abstract class CrudAction extends Action
 
     public function create(array $data): ApiResource
     {
-        $response = $this->shopify->post($this->resourceKey->plural().'.json', [
+        $response = $this->shopify->post($this->path(), [
             $this->resourceKey->singular() => $data,
         ]);
 
@@ -30,7 +30,7 @@ abstract class CrudAction extends Action
 
     public function update($id, array $data): ApiResource
     {
-        $response = $this->shopify->put($this->resourceKey->plural().'/'.$id.'.json', [
+        $response = $this->shopify->put($this->path($id), [
             $this->resourceKey->singular() => $data,
         ]);
 
@@ -39,14 +39,14 @@ abstract class CrudAction extends Action
 
     public function find($id): ApiResource
     {
-        $response = $this->shopify->get($this->resourceKey->plural().'/'.$id.'.json');
+        $response = $this->shopify->get($this->path($id));
 
         return $this->transformItemFromResponse($response);
     }
 
     public function destroy($id): void
     {
-        $this->shopify->delete($this->resourceKey->plural().'/'.$id.'.json');
+        $this->shopify->delete($this->path($id));
     }
 
     public function delete($id): void
