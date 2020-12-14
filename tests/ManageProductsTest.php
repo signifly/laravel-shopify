@@ -65,6 +65,24 @@ class ManageProductsTest extends TestCase
     }
 
     /** @test **/
+    public function it_finds_a_product()
+    {
+        Http::fake([
+            '*' => Http::response(['product' => ['id' => 1234, 'title' => 'Some title']]),
+        ]);
+
+        $resource = $this->shopify->products()->find($id = 1234);
+
+        Http::assertSent(function (Request $request) use ($id) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/products/'.$id.'.json', $request->url());
+            $this->assertEquals('GET', $request->method());
+
+            return true;
+        });
+        $this->assertInstanceOf(ProductResource::class, $resource);
+    }
+
+    /** @test **/
     public function it_updates_a_product()
     {
         Http::fake([
