@@ -9,7 +9,7 @@ use Signifly\Shopify\REST\ResourceKey;
 use Signifly\Shopify\REST\TransformsResources;
 use Signifly\Shopify\Shopify;
 
-abstract class ApiResource implements ArrayAccess
+class ApiResource implements ArrayAccess
 {
     use TransformsResources;
 

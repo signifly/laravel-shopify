@@ -21,18 +21,14 @@ abstract class CrudAction extends Action
 
     public function create(array $data): ApiResource
     {
-        $response = $this->shopify->post($this->path(), [
-            $this->resourceKey->singular() => $data,
-        ]);
+        $response = $this->shopify->post($this->path(), $this->preparePayload($data));
 
         return $this->transformItemFromResponse($response);
     }
 
     public function update($id, array $data): ApiResource
     {
-        $response = $this->shopify->put($this->path($id), [
-            $this->resourceKey->singular() => $data,
-        ]);
+        $response = $this->shopify->put($this->path($id), $this->preparePayload($data));
 
         return $this->transformItemFromResponse($response);
     }
@@ -61,5 +57,12 @@ abstract class CrudAction extends Action
         );
 
         return $response->json('count') ?? 0;
+    }
+
+    protected function preparePayload(array $data): array
+    {
+        return [
+            $this->resourceKey->singular() => $data,
+        ];
     }
 }
