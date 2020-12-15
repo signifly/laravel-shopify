@@ -55,7 +55,6 @@ If you discover any security issues, please email dev@signifly.com instead of us
 ## Credits
 
 - [Morten Poul Jensen](https://github.com/pactode)
-- [Travis Elkins](https://github.com/telkins)
 - [All contributors](../../contributors)
 
 ## License

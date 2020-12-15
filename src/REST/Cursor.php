@@ -2,41 +2,35 @@
 
 namespace Signifly\Shopify\REST;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Iterator;
 use RuntimeException;
 use Signifly\Shopify\Shopify;
 
 class Cursor implements Iterator
 {
-    use TransformsResources;
-
     const LINK_REGEX = '/<(.*page_info=([a-z0-9\-]+).*)>; rel="?{type}"?/i';
 
     protected Shopify $shopify;
-
-    protected ResourceKey $resourceKey;
-
     protected int $position = 0;
-
     protected array $links = [];
-
     protected array $results = [];
+    protected string $resourceClass;
 
-    public function __construct(Shopify $shopify, ResourceKey $resourceKey, array $response)
+    public function __construct(Shopify $shopify, Collection $results)
     {
         $this->shopify = $shopify;
-        $this->resourceKey = $resourceKey;
-        $this->results[$this->position] = $response;
+        $this->results[$this->position] = $results;
 
+        $this->detectResourceClass();
         $this->extractLinks();
     }
 
     public function current(): Collection
     {
-        return $this->transformCollectionFromResponse(
-            $this->results[$this->position]
-        );
+        return $this->results[$this->position];
     }
 
     public function hasNext(): bool
@@ -59,7 +53,7 @@ class Cursor implements Iterator
         $this->position++;
 
         if (! $this->valid() && $this->hasNext()) {
-            $this->results[$this->position] = $this->shopify->get($this->links['next']);
+            $this->results[$this->position] = $this->fetchNextResults();
             $this->extractLinks();
         }
     }
@@ -99,7 +93,7 @@ class Cursor implements Iterator
         foreach (array_keys($links) as $type) {
             $matched = preg_match(
                 str_replace('{type}', $type, static::LINK_REGEX),
-                $response->header('Link')[0],
+                $response->header('Link'),
                 $matches
             );
 
@@ -111,8 +105,20 @@ class Cursor implements Iterator
         $this->links = $links;
     }
 
-    protected function getResourceKey(): ResourceKey
+    protected function fetchNextResults(): Collection
     {
-        return $this->resourceKey;
+        $results = $this->shopify->get(
+            Str::after($this->links['next'], $this->shopify->getBaseUrl())
+        );
+
+        return Collection::make(Arr::first($results))
+            ->map(fn ($attr) => new $this->resourceClass($attr, $this->shopify));
+    }
+
+    private function detectResourceClass(): void
+    {
+        if ($resource = optional($this->results[0])->first()) {
+            $this->resourceClass = get_class($resource);
+        }
     }
 }

@@ -30,7 +30,7 @@ class ManageVariantsTest extends TestCase
             ]]),
         ]);
 
-        $resources = $this->shopify->productVariants(5432)->all();
+        $resources = $this->shopify->getVariants(5432);
 
         Http::assertSent(function (Request $request) {
             $this->assertEquals($this->shopify->getBaseUrl().'/products/5432/variants.json', $request->url());
@@ -49,7 +49,7 @@ class ManageVariantsTest extends TestCase
             '*' => Http::response(['variant' => ['id' => 1234, 'title' => 'Some title']]),
         ]);
 
-        $resource = $this->shopify->productVariants(5432)->create($payload = [
+        $resource = $this->shopify->createVariant(5432, $payload = [
             'sku' => '12345678',
         ]);
 
@@ -70,10 +70,10 @@ class ManageVariantsTest extends TestCase
             '*' => Http::response(['variant' => ['sku' => 1234, 'title' => 'Some title']]),
         ]);
 
-        $resource = $this->shopify->variants()->find($id = 1234);
+        $resource = $this->shopify->getVariant(1234);
 
-        Http::assertSent(function (Request $request) use ($id) {
-            $this->assertEquals($this->shopify->getBaseUrl().'/variants/'.$id.'.json', $request->url());
+        Http::assertSent(function (Request $request) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/variants/1234.json', $request->url());
             $this->assertEquals('GET', $request->method());
 
             return true;
@@ -88,14 +88,12 @@ class ManageVariantsTest extends TestCase
             '*' => Http::response(['variant' => ['id' => 1234, 'sku' => '123456']]),
         ]);
 
-        $id = 1234;
-
-        $resource = $this->shopify->variants()->update($id, $payload = [
+        $resource = $this->shopify->updateVariant(1234, $payload = [
             'sku' => '123456',
         ]);
 
-        Http::assertSent(function (Request $request) use ($id, $payload) {
-            $this->assertEquals($this->shopify->getBaseUrl().'/variants/'.$id.'.json', $request->url());
+        Http::assertSent(function (Request $request) use ($payload) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/variants/1234.json', $request->url());
             $this->assertEquals(['variant' => $payload], $request->data());
             $this->assertEquals('PUT', $request->method());
 
@@ -111,12 +109,10 @@ class ManageVariantsTest extends TestCase
             '*' => Http::response(),
         ]);
 
-        $id = 1234;
+        $this->shopify->deleteVariant(5432, 1234);
 
-        $this->shopify->productVariants(5432)->destroy($id);
-
-        Http::assertSent(function (Request $request) use ($id) {
-            $this->assertEquals($this->shopify->getBaseUrl().'/products/5432/variants/'.$id.'.json', $request->url());
+        Http::assertSent(function (Request $request) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/products/5432/variants/1234.json', $request->url());
             $this->assertEquals('DELETE', $request->method());
 
             return true;
@@ -130,7 +126,7 @@ class ManageVariantsTest extends TestCase
             '*' => Http::response(['count' => 125]),
         ]);
 
-        $count = $this->shopify->productVariants(5432)->count();
+        $count = $this->shopify->getVariantsCount(5432);
 
         Http::assertSent(function (Request $request) {
             $this->assertEquals($this->shopify->getBaseUrl().'/products/5432/variants/count.json', $request->url());

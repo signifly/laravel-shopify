@@ -4,12 +4,13 @@ namespace Signifly\Shopify\REST\Resources;
 
 use ArrayAccess;
 use Exception;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Signifly\Shopify\REST\ResourceKey;
 use Signifly\Shopify\REST\TransformsResources;
 use Signifly\Shopify\Shopify;
 
-class ApiResource implements ArrayAccess
+class ApiResource implements ArrayAccess, Arrayable
 {
     use TransformsResources;
 
@@ -140,5 +141,10 @@ class ApiResource implements ArrayAccess
     protected function getResourceKey(): ResourceKey
     {
         return ResourceKey::fromResource(static::class);
+    }
+
+    public function toArray()
+    {
+        return $this->getAttributes();
     }
 }

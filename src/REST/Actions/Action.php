@@ -18,13 +18,16 @@ abstract class Action
 
     protected ResourceKey $resourceKey;
 
+    protected ?string $resourceId = null;
+
     protected ?string $parent = null;
 
     protected ?string $parentId = null;
 
-    public function __construct(Shopify $shopify, ?ResourceKey $resourceKey = null)
+    public function __construct(Shopify $shopify, ?string $resourceId = null, ?ResourceKey $resourceKey = null)
     {
         $this->shopify = $shopify;
+        $this->resourceId = $resourceId;
         $this->resourceKey = $resourceKey ?? ResourceKey::fromAction(static::class);
     }
 
@@ -63,6 +66,16 @@ abstract class Action
         return Path::make($this->resourceKey)
             ->prepends($this->parentPath())
             ->withId($id);
+    }
+
+    public function hasResourceId(): bool
+    {
+        return $this->resourceId !== null;
+    }
+
+    public function getResourceId(): ?string
+    {
+        return $this->resourceId;
     }
 
     public function with(string $parent, string $parentId): self

@@ -3,6 +3,7 @@
 namespace Signifly\Shopify;
 
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Signifly\Shopify\REST\Actions\AddressAction;
 use Signifly\Shopify\REST\Actions\CollectAction;
@@ -15,6 +16,8 @@ use Signifly\Shopify\REST\Actions\FulfillmentAction;
 use Signifly\Shopify\REST\Actions\ImageAction;
 use Signifly\Shopify\REST\Actions\InventoryItemAction;
 use Signifly\Shopify\REST\Actions\InventoryLevelAction;
+use Signifly\Shopify\REST\Actions\ManagesCollections;
+use Signifly\Shopify\REST\Actions\ManagesProducts;
 use Signifly\Shopify\REST\Actions\MetafieldAction;
 use Signifly\Shopify\REST\Actions\OrderAction;
 use Signifly\Shopify\REST\Actions\ProductAction;
@@ -25,12 +28,17 @@ use Signifly\Shopify\REST\Actions\SmartCollectionAction;
 use Signifly\Shopify\REST\Actions\TransactionAction;
 use Signifly\Shopify\REST\Actions\VariantAction;
 use Signifly\Shopify\REST\Actions\WebhookAction;
+use Signifly\Shopify\REST\Cursor;
 use Signifly\Shopify\REST\Resources\ApiResource;
+use Signifly\Shopify\REST\TransformsResources;
 use Signifly\Shopify\Support\MakesHttpRequests;
 
 class Shopify
 {
     use MakesHttpRequests;
+    use TransformsResources;
+    use ManagesProducts;
+    use ManagesCollections;
 
     protected string $apiKey;
     protected string $password;
@@ -47,6 +55,11 @@ class Shopify
         $this->apiVersion = $apiVersion;
     }
 
+    public function cursor(Collection $results): Cursor
+    {
+        return new Cursor($this, $results);
+    }
+
     protected function addresses(): AddressAction
     {
         return new AddressAction($this);
@@ -57,9 +70,9 @@ class Shopify
         return new CollectionListingAction($this);
     }
 
-    public function collectionMetafields($id): MetafieldAction
+    public function collectionMetafields($collectionId): MetafieldAction
     {
-        return $this->metafields()->with('collections', $id);
+        return $this->metafields()->with('collections', $collectionId);
     }
 
     public function collects(): CollectAction
@@ -72,9 +85,9 @@ class Shopify
         return new CustomerAction($this);
     }
 
-    public function customerAddresses($id): AddressAction
+    public function customerAddresses($customerId): AddressAction
     {
-        return $this->addresses()->with('customers', $id);
+        return $this->addresses()->with('customers', $customerId);
     }
 
     public function customCollection(): CustomCollectionAction
@@ -122,24 +135,24 @@ class Shopify
         return new OrderAction($this);
     }
 
-    public function orderFulfillments($id): FulfillmentAction
+    public function orderFulfillments($orderId): FulfillmentAction
     {
-        return $this->fulfillments()->with('orders', $id);
+        return $this->fulfillments()->with('orders', $orderId);
     }
 
-    public function orderMetafields($id): MetafieldAction
+    public function orderMetafields($orderId): MetafieldAction
     {
-        return $this->metafields()->with('orders', $id);
+        return $this->metafields()->with('orders', $orderId);
     }
 
-    public function orderRisks($id): RiskAction
+    public function orderRisks($orderId): RiskAction
     {
-        return $this->risks()->with('orders', $id);
+        return $this->risks()->with('orders', $orderId);
     }
 
-    public function orderTransactions($id): TransactionAction
+    public function orderTransactions($orderId): TransactionAction
     {
-        return $this->transactions()->with('orders', $id);
+        return $this->transactions()->with('orders', $orderId);
     }
 
     public function products(): ProductAction
@@ -147,9 +160,9 @@ class Shopify
         return new ProductAction($this);
     }
 
-    public function productImages(int $id): ImageAction
+    public function productImages($productId): ImageAction
     {
-        return $this->images()->with('products', $id);
+        return $this->images()->with('products', $productId);
     }
 
     public function productListings(): ProductListingAction
@@ -157,14 +170,14 @@ class Shopify
         return new ProductListingAction($this);
     }
 
-    public function productMetafields($id): MetafieldAction
+    public function productMetafields($productId): MetafieldAction
     {
-        return $this->metafields()->with('products', $id);
+        return $this->metafields()->with('products', $productId);
     }
 
-    public function productVariants(int $id): VariantAction
+    public function productVariants($productId): VariantAction
     {
-        return $this->variants()->with('products', $id);
+        return $this->variants()->with('products', $productId);
     }
 
     public function refunds(): RefundAction
@@ -189,7 +202,7 @@ class Shopify
         return new SmartCollectionAction($this);
     }
 
-    private function transactions(): TransactionAction
+    protected function transactions(): TransactionAction
     {
         return new TransactionAction($this);
     }
@@ -199,9 +212,9 @@ class Shopify
         return new VariantAction($this);
     }
 
-    public function variantMetafields($id): MetafieldAction
+    public function variantMetafields($variantId): MetafieldAction
     {
-        return $this->metafields()->with('variants', $id);
+        return $this->metafields()->with('variants', $variantId);
     }
 
     public function webhooks(): WebhookAction
