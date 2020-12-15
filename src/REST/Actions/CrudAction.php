@@ -53,4 +53,13 @@ abstract class CrudAction extends Action
     {
         $this->destroy($id);
     }
+
+    public function count(array $params = []): int
+    {
+        $response = $this->shopify->get(
+            $this->path()->appends('count')->withParams($params)
+        );
+
+        return $response->json('count') ?? 0;
+    }
 }

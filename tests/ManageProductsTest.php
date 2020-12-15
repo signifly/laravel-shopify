@@ -124,4 +124,22 @@ class ManageProductsTest extends TestCase
             return true;
         });
     }
+
+    /** @test **/
+    public function it_counts_products()
+    {
+        Http::fake([
+            '*' => Http::response(['count' => 125]),
+        ]);
+
+        $count = $this->shopify->products()->count();
+
+        Http::assertSent(function (Request $request) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/products/count.json', $request->url());
+            $this->assertEquals('GET', $request->method());
+
+            return true;
+        });
+        $this->assertEquals(125, $count);
+    }
 }
