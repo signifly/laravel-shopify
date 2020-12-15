@@ -6,8 +6,6 @@ use Signifly\Shopify\REST\Resources\ApiResource;
 
 class DraftOrderAction extends CrudAction
 {
-    protected string $resourceClass = ApiResource::class;
-
     public function complete($id): ApiResource
     {
         $response = $this->shopify->put($this->path($id)->appends('complete'));

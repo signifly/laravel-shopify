@@ -2,6 +2,6 @@
 
 namespace Signifly\Shopify\REST\Actions;
 
-class WebhookAction extends CrudAction
+class MetafieldAction extends CrudAction
 {
 }

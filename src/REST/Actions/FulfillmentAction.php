@@ -6,8 +6,6 @@ use Signifly\Shopify\REST\Resources\ApiResource;
 
 class FulfillmentAction extends CrudAction
 {
-    protected string $resourceClass = ApiResource::class;
-
     public function updateTracking($id, array $data): ApiResource
     {
         if ($this->hasParent()) {

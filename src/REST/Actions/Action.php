@@ -14,7 +14,7 @@ abstract class Action
 
     protected Shopify $shopify;
 
-    protected string $resourceClass;
+    protected string $resourceClass = ApiResource::class;
 
     protected ResourceKey $resourceKey;
 

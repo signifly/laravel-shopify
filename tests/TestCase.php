@@ -26,8 +26,10 @@ abstract class TestCase extends Orchestra
         putenv('APP_KEY=mysecretkey');
     }
 
-    protected function getShopUrl(): string
+    protected function fixture(string $name): array
     {
+        $json = file_get_contents(__DIR__.'/Fixtures/'.$name.'.json');
 
+        return json_decode($json, true);
     }
 }
