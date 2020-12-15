@@ -13,6 +13,9 @@ use Signifly\Shopify\REST\Actions\DraftOrderAction;
 use Signifly\Shopify\REST\Actions\EventAction;
 use Signifly\Shopify\REST\Actions\FulfillmentAction;
 use Signifly\Shopify\REST\Actions\ImageAction;
+use Signifly\Shopify\REST\Actions\InventoryItemAction;
+use Signifly\Shopify\REST\Actions\InventoryLevelAction;
+use Signifly\Shopify\REST\Actions\MetafieldAction;
 use Signifly\Shopify\REST\Actions\OrderAction;
 use Signifly\Shopify\REST\Actions\ProductAction;
 use Signifly\Shopify\REST\Actions\ProductListingAction;
@@ -52,6 +55,11 @@ class Shopify
     public function collectionListings(): CollectionListingAction
     {
         return new CollectionListingAction($this);
+    }
+
+    public function collectionMetafields($id): MetafieldAction
+    {
+        return $this->metafields()->with('collections', $id);
     }
 
     public function collects(): CollectAction
@@ -94,6 +102,21 @@ class Shopify
         return new ImageAction($this);
     }
 
+    public function inventoryItems(): InventoryItemAction
+    {
+        return new InventoryItemAction($this);
+    }
+
+    public function inventoryLevels(): InventoryLevelAction
+    {
+        return new InventoryLevelAction($this);
+    }
+
+    public function metafields(): MetafieldAction
+    {
+        return new MetafieldAction($this);
+    }
+
     public function orders(): OrderAction
     {
         return new OrderAction($this);
@@ -102,6 +125,11 @@ class Shopify
     public function orderFulfillments($id): FulfillmentAction
     {
         return $this->fulfillments()->with('orders', $id);
+    }
+
+    public function orderMetafields($id): MetafieldAction
+    {
+        return $this->metafields()->with('orders', $id);
     }
 
     public function orderRisks($id): RiskAction
@@ -127,6 +155,11 @@ class Shopify
     public function productListings(): ProductListingAction
     {
         return new ProductListingAction($this);
+    }
+
+    public function productMetafields($id): MetafieldAction
+    {
+        return $this->metafields()->with('products', $id);
     }
 
     public function productVariants(int $id): VariantAction
@@ -164,6 +197,11 @@ class Shopify
     public function variants(): VariantAction
     {
         return new VariantAction($this);
+    }
+
+    public function variantMetafields($id): MetafieldAction
+    {
+        return $this->metafields()->with('variants', $id);
     }
 
     public function webhooks(): WebhookAction
