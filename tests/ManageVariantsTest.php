@@ -6,7 +6,6 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Signifly\Shopify\Factory;
-use Signifly\Shopify\REST\Resources\ProductResource;
 use Signifly\Shopify\REST\Resources\VariantResource;
 use Signifly\Shopify\Shopify;
 
@@ -102,7 +101,7 @@ class ManageVariantsTest extends TestCase
 
             return true;
         });
-        $this->assertInstanceOf(ProductResource::class, $resource);
+        $this->assertInstanceOf(VariantResource::class, $resource);
     }
 
     /** @test **/
