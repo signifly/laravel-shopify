@@ -145,8 +145,13 @@ class ManageProductsTest extends TestCase
     /** @test **/
     public function it_paginates_products()
     {
+        Http::fakeSequence()
+            ->push(['count' => 4], 200)
+            ->push($this->fixture('products.all'), 200, ['Link' => '<'.$this->shopify->getBaseUrl().'/products.json?page_info=1234&limit=2>; rel=next'])
+            ->push($this->fixture('products.all'), 200);
+
         $count = $this->shopify->getProductsCount();
-        $pages = $this->shopify->paginateProducts(['limit' => 250]);
+        $pages = $this->shopify->paginateProducts(['limit' => 2]);
 
         $results = collect();
 
@@ -156,5 +161,7 @@ class ManageProductsTest extends TestCase
 
         $this->assertInstanceOf(Cursor::class, $pages);
         $this->assertEquals($count, $results->count());
+
+        Http::assertSequencesAreEmpty();
     }
 }

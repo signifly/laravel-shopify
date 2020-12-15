@@ -82,6 +82,8 @@ class Cursor implements Iterator
         $response = $this->shopify->getLastResponse();
 
         if (! $response->header('Link')) {
+            $this->links = [];
+
             return;
         }
 
@@ -107,15 +109,15 @@ class Cursor implements Iterator
 
     protected function fetchNextResults(): Collection
     {
-        $results = $this->shopify->get(
+        $response = $this->shopify->get(
             Str::after($this->links['next'], $this->shopify->getBaseUrl())
         );
 
-        return Collection::make(Arr::first($results))
+        return Collection::make(Arr::first($response->json()))
             ->map(fn ($attr) => new $this->resourceClass($attr, $this->shopify));
     }
 
-    private function detectResourceClass(): void
+    private function detectResourceClass()
     {
         if ($resource = optional($this->results[0])->first()) {
             $this->resourceClass = get_class($resource);
