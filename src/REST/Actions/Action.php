@@ -18,6 +18,10 @@ abstract class Action
 
     protected ResourceKey $resourceKey;
 
+    protected ?string $parent = null;
+
+    protected ?int $parentId = null;
+
     public function __construct(Shopify $shopify, ?ResourceKey $resourceKey = null)
     {
         $this->shopify = $shopify;
@@ -44,8 +48,28 @@ abstract class Action
         return $this->resourceKey;
     }
 
+    protected function hasParent(): bool
+    {
+        return $this->parent && $this->parentId;
+    }
+
+    protected function parentPath(): string
+    {
+        return $this->hasParent() ? "{$this->parent}/{$this->parentId}" : '';
+    }
+
     protected function path(?int $id = null): Path
     {
-        return Path::make($this->resourceKey)->withId($id);
+        return Path::make($this->resourceKey)
+            ->prepends($this->parentPath())
+            ->withId($id);
+    }
+
+    public function with(string $parent, int $parentId): self
+    {
+        $this->parent = $parent;
+        $this->parentId = $parentId;
+
+        return $this;
     }
 }

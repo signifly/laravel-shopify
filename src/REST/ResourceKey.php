@@ -24,6 +24,13 @@ class ResourceKey
         return new self($name);
     }
 
+    public static function fromResource(string $class): self
+    {
+        $name = Str::of((new \ReflectionClass($class))->getShortName())->before('Resource');
+
+        return new self($name);
+    }
+
     public function studly(): string
     {
         return $this->name->studly();

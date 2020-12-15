@@ -5,10 +5,14 @@ namespace Signifly\Shopify\REST\Resources;
 use ArrayAccess;
 use Exception;
 use Illuminate\Support\Arr;
+use Signifly\Shopify\REST\ResourceKey;
+use Signifly\Shopify\REST\TransformsResources;
 use Signifly\Shopify\Shopify;
 
 abstract class ApiResource implements ArrayAccess
 {
+    use TransformsResources;
+
     protected array $attributes = [];
 
     protected Shopify $shopify;
@@ -131,5 +135,10 @@ abstract class ApiResource implements ArrayAccess
     public function getAttributes()
     {
         return $this->attributes;
+    }
+
+    protected function getResourceKey(): ResourceKey
+    {
+        return ResourceKey::fromResource(static::class);
     }
 }

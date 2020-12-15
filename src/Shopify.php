@@ -4,7 +4,9 @@ namespace Signifly\Shopify;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
+use Signifly\Shopify\REST\Actions\ImageAction;
 use Signifly\Shopify\REST\Actions\ProductAction;
+use Signifly\Shopify\REST\Actions\VariantAction;
 use Signifly\Shopify\Support\MakesHttpRequests;
 
 class Shopify
@@ -24,9 +26,24 @@ class Shopify
         $this->apiVersion = $apiVersion;
     }
 
-    public function products()
+    public function products(): ProductAction
     {
         return new ProductAction($this);
+    }
+
+    public function productImages(int $id): ImageAction
+    {
+        return (new ImageAction($this))->with('products', $id);
+    }
+
+    public function productVariants(int $id): VariantAction
+    {
+        return $this->variants()->with('products', $id);
+    }
+
+    public function variants(): VariantAction
+    {
+        return new VariantAction($this);
     }
 
     public function getHttpClient(): PendingRequest
