@@ -24,10 +24,7 @@ class ManageProductsTest extends TestCase
     public function it_gets_products()
     {
         Http::fake([
-            '*' => Http::response(['products' => [
-                ['id' => 1234, 'title' => 'Some title'],
-                ['id' => 4321, 'title' => 'Some title 2'],
-            ]]),
+            '*' => Http::response($this->fixture('products.all')),
         ]);
 
         $resources = $this->shopify->products()->all();
@@ -46,7 +43,7 @@ class ManageProductsTest extends TestCase
     public function it_creates_a_product()
     {
         Http::fake([
-            '*' => Http::response(['product' => ['id' => 1234, 'title' => 'Some title']]),
+            '*' => Http::response($this->fixture('products.show')),
         ]);
 
         $resource = $this->shopify->products()->create($payload = [
@@ -68,7 +65,7 @@ class ManageProductsTest extends TestCase
     public function it_finds_a_product()
     {
         Http::fake([
-            '*' => Http::response(['product' => ['id' => 1234, 'title' => 'Some title']]),
+            '*' => Http::response($this->fixture('products.show')),
         ]);
 
         $resource = $this->shopify->products()->find($id = 1234);
@@ -86,7 +83,7 @@ class ManageProductsTest extends TestCase
     public function it_updates_a_product()
     {
         Http::fake([
-            '*' => Http::response(['product' => ['id' => 1234, 'title' => 'Some title']]),
+            '*' => Http::response($this->fixture('products.show')),
         ]);
 
         $id = 1234;
