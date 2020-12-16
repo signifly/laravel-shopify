@@ -6,6 +6,7 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Signifly\Shopify\REST\Actions\ManagesCollections;
+use Signifly\Shopify\REST\Actions\ManagesCustomers;
 use Signifly\Shopify\REST\Actions\ManagesEvents;
 use Signifly\Shopify\REST\Actions\ManagesInventory;
 use Signifly\Shopify\REST\Actions\ManagesMetafields;
@@ -13,19 +14,20 @@ use Signifly\Shopify\REST\Actions\ManagesOrders;
 use Signifly\Shopify\REST\Actions\ManagesProducts;
 use Signifly\Shopify\REST\Cursor;
 use Signifly\Shopify\REST\Resources\ApiResource;
-use Signifly\Shopify\Support\TransformsResources;
 use Signifly\Shopify\Support\MakesHttpRequests;
+use Signifly\Shopify\Support\TransformsResources;
 
 class Shopify
 {
     use MakesHttpRequests;
-    use TransformsResources;
-    use ManagesProducts;
     use ManagesCollections;
+    use ManagesCustomers;
+    use ManagesEvents;
     use ManagesInventory;
     use ManagesMetafields;
-    use ManagesEvents;
     use ManagesOrders;
+    use ManagesProducts;
+    use TransformsResources;
 
     protected string $apiKey;
     protected string $password;
