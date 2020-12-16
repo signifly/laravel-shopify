@@ -26,7 +26,7 @@ class ManageWebhooksTest extends TestCase
             '*' => Http::response($this->fixture('webhooks.create')),
         ]);
 
-        $resource = $this->shopify->webhooks()->create($payload = [
+        $resource = $this->shopify->createWebhook($payload = [
             'topic' => 'orders/create',
             'address' => 'https://whatever.hostname.com/',
             'format' => 'json',
