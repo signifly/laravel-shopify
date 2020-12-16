@@ -93,11 +93,11 @@ trait ManagesInventory
         return $this->transformCollection($response['locations'], ApiResource::class);
     }
 
-    public function getLocation($locationId): Collection
+    public function getLocation($locationId): ApiResource
     {
         $response = $this->get("locations/{$locationId}.json");
 
-        return $this->transformCollection($response['location'], ApiResource::class);
+        return $this->transformItem($response['location'], ApiResource::class);
     }
 
     public function getLocationInventoryLevels($locationId, array $params = []): Collection

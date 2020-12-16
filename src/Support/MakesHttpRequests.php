@@ -40,7 +40,7 @@ trait MakesHttpRequests
         return $response;
     }
 
-    public function delete(string $url, array $data = [])
+    public function delete(string $url, array $data = []): Response
     {
         $response = $this->getHttpClient()->delete($url, $data);
 
