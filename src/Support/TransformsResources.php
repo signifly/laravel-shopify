@@ -1,6 +1,6 @@
 <?php
 
-namespace Signifly\Shopify\REST;
+namespace Signifly\Shopify\Support;
 
 use Illuminate\Support\Collection;
 use Signifly\Shopify\REST\Resources\ApiResource;

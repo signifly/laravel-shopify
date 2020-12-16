@@ -8,7 +8,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Macroable;
 use Signifly\Shopify\REST\ResourceKey;
-use Signifly\Shopify\REST\TransformsResources;
+use Signifly\Shopify\Support\TransformsResources;
 use Signifly\Shopify\Shopify;
 
 class ApiResource implements ArrayAccess, Arrayable
