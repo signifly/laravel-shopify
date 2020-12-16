@@ -4,7 +4,7 @@ namespace Signifly\Shopify\REST\Actions;
 
 use Illuminate\Support\Collection;
 use Signifly\Shopify\REST\Cursor;
-use Signifly\Shopify\REST\Resources\ProductImageResource;
+use Signifly\Shopify\REST\Resources\ImageResource;
 use Signifly\Shopify\REST\Resources\ProductResource;
 use Signifly\Shopify\REST\Resources\VariantResource;
 use Signifly\Shopify\Shopify;
@@ -14,16 +14,12 @@ trait ManagesProducts
 {
     public function createProduct(array $data): ProductResource
     {
-        $response = $this->post('products.json', ['product' => $data]);
-
-        return new ProductResource($response['product'], $this);
+        return $this->createResource('products', $data);
     }
 
     public function getProductsCount(array $params = []): int
     {
-        $response = $this->get('products/count.json', $params);
-
-        return $response['count'] ?? 0;
+        return $this->getResourceCount('products', $params);
     }
 
     public function paginateProducts(array $params = []): Cursor
@@ -33,42 +29,32 @@ trait ManagesProducts
 
     public function getProducts(array $params = []): Collection
     {
-        $response = $this->get('products.json', $params);
-
-        return $this->transformCollection($response['products'], ProductResource::class);
+        return $this->getResources('products', $params);
     }
 
     public function getProduct($productId): ProductResource
     {
-        $response = $this->get("products/{$productId}.json");
-
-        return new ProductResource($response['product'], $this);
+        return $this->getResource('products', $productId);
     }
 
     public function updateProduct($productId, $data): ProductResource
     {
-        $response = $this->put("products/{$productId}.json", ['product' => $data]);
-
-        return new ProductResource($response['product'], $this);
+        return $this->updateResource('products', $productId, $data);
     }
 
     public function deleteProduct($productId): void
     {
-        $this->delete("products/{$productId}.json");
+        $this->deleteResource('products', $productId);
     }
 
     public function createVariant($productId, array $data): VariantResource
     {
-        $response = $this->post("products/{$productId}/variants.json", ['variant' => $data]);
-
-        return new VariantResource($response['variant'], $this);
+        return $this->createResource('variants', $data, ['products', $productId]);
     }
 
     public function getVariantsCount($productId, array $params = []): int
     {
-        $response = $this->get("products/{$productId}/variants/count.json", $params);
-
-        return $response['count'] ?? 0;
+        return $this->getResourceCount('variants', $params, ['products', $productId]);
     }
 
     public function paginateVariants($productId, array $params = []): Cursor
@@ -78,42 +64,32 @@ trait ManagesProducts
 
     public function getVariants($productId, array $params = []): Collection
     {
-        $response = $this->get("products/{$productId}/variants.json", $params);
-
-        return $this->transformCollection($response['variants'], VariantResource::class);
+        return $this->getResources('variants', $params, ['products', $productId]);
     }
 
     public function getVariant($variantId): VariantResource
     {
-        $response = $this->get("variants/{$variantId}.json");
-
-        return new VariantResource($response['variant'], $this);
+        return $this->getResource('variants', $variantId);
     }
 
     public function updateVariant($variantId, array $data): VariantResource
     {
-        $response = $this->put("variants/{$variantId}.json", ['variant' => $data]);
-
-        return new VariantResource($response['variant'], $this);
+        return $this->updateResource('variants', $variantId, $data);
     }
 
     public function deleteVariant($productId, $variantId): void
     {
-        $this->delete("products/{$productId}/variants/{$variantId}.json");
+        $this->deleteResource('variants', $variantId, ['products', $productId]);
     }
 
-    public function createProductImage($productId, array $data): ProductImageResource
+    public function createProductImage($productId, array $data): ImageResource
     {
-        $response = $this->post("products/{$productId}/images.json", ['image' => $data]);
-
-        return new ProductImageResource($response['image'], $this);
+        return $this->createResource('images', $data, ['products', $productId]);
     }
 
     public function getProductImagesCount($productId, array $params = []): int
     {
-        $response = $this->get("products/{$productId}/images/count.json", $params);
-
-        return $response['count'] ?? 0;
+        return $this->getResourceCount('images', $params, ['products', $productId]);
     }
 
     public function paginateProductImages($productId, array $params = []): Cursor
@@ -123,27 +99,21 @@ trait ManagesProducts
 
     public function getProductImages($productId, array $params = []): Collection
     {
-        $response = $this->get("products/{$productId}/images.json", $params);
-
-        return $this->transformCollection($response['images'], ProductImageResource::class);
+        return $this->getResources('images', $params, ['products', $productId]);
     }
 
-    public function getProductImage($productId, $imageId): ProductImageResource
+    public function getProductImage($productId, $imageId): ImageResource
     {
-        $response = $this->get("products/{$productId}/images/{$imageId}.json");
-
-        return new ProductImageResource($response['image'], $this);
+        return $this->getResource('images', $imageId, ['products', $productId]);
     }
 
-    public function updateProductImage($productId, $imageId, array $data): ProductImageResource
+    public function updateProductImage($productId, $imageId, array $data): ImageResource
     {
-        $response = $this->put("products/{$productId}/images/{$imageId}.json", ['variant' => $data]);
-
-        return new ProductImageResource($response['image'], $this);
+        return $this->updateResource('images', $imageId, $data, ['products', $productId]);
     }
 
     public function deleteProductImage($productId, $imageId): void
     {
-        $this->delete("products/{$productId}/images/{$imageId}.json");
+        $this->deleteResource('images', $imageId, ['products', $productId]);
     }
 }

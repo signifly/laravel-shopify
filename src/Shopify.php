@@ -18,6 +18,7 @@ use Signifly\Shopify\REST\Actions\InventoryItemAction;
 use Signifly\Shopify\REST\Actions\InventoryLevelAction;
 use Signifly\Shopify\REST\Actions\ManagesCollections;
 use Signifly\Shopify\REST\Actions\ManagesInventory;
+use Signifly\Shopify\REST\Actions\ManagesMetafields;
 use Signifly\Shopify\REST\Actions\ManagesProducts;
 use Signifly\Shopify\REST\Actions\MetafieldAction;
 use Signifly\Shopify\REST\Actions\OrderAction;
@@ -41,6 +42,7 @@ class Shopify
     use ManagesProducts;
     use ManagesCollections;
     use ManagesInventory;
+    use ManagesMetafields;
 
     protected string $apiKey;
     protected string $password;

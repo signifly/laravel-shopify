@@ -8,7 +8,7 @@ class ProductResource extends ApiResource
 {
     public function images(): Collection
     {
-        return $this->transformCollection($this->images, ProductImageResource::class);
+        return $this->transformCollection($this->images, ImageResource::class);
     }
 
     public function variants(): Collection

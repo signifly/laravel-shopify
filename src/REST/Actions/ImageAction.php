@@ -2,9 +2,9 @@
 
 namespace Signifly\Shopify\REST\Actions;
 
-use Signifly\Shopify\REST\Resources\ProductImageResource;
+use Signifly\Shopify\REST\Resources\ImageResource;
 
 class ImageAction extends CrudAction
 {
-    protected string $resourceClass = ProductImageResource::class;
+    protected string $resourceClass = ImageResource::class;
 }

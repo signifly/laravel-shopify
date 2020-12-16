@@ -2,6 +2,6 @@
 
 namespace Signifly\Shopify\REST\Resources;
 
-class ProductImageResource extends ApiResource
+class MetafieldResource extends ApiResource
 {
 }

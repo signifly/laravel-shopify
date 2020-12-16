@@ -3,7 +3,10 @@
 namespace Signifly\Shopify\Support;
 
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Signifly\Shopify\Exceptions\Handler;
+use Signifly\Shopify\REST\Resources\ApiResource;
 use Signifly\Shopify\Shopify;
 
 /**
@@ -47,6 +50,67 @@ trait MakesHttpRequests
         $this->handleErrorResponse($response);
 
         return $response;
+    }
+
+    protected function resourceClassFor(string $resource): string
+    {
+        $resourceClass = Str::of($resource)
+            ->studly()
+            ->singular()
+            ->prepend('Signifly\\Shopify\\REST\\Resources\\')
+            ->append('Resource');
+
+        return class_exists($resourceClass) ? $resourceClass : ApiResource::class;
+    }
+
+    protected function createResource(string $resource, array $data, array $uriPrefix = []): ApiResource
+    {
+        $key = Str::singular($resource);
+        $resourceClass = $this->resourceClassFor($resource);
+
+        $response = $this->post(join('/', [...$uriPrefix, "{$resource}.json"]), [$key => $data]);
+
+        return new $resourceClass($response[$key], $this);
+    }
+
+    protected function getResourceCount(string $resource, array $params, array $uriPrefix = []): int
+    {
+        $response = $this->get(join('/', [...$uriPrefix, "{$resource}/count.json"]), $params);
+
+        return $response['count'] ?? 0;
+    }
+
+    protected function getResources(string $resource, array $params, array $uriPrefix = []): Collection
+    {
+        $resourceClass = $this->resourceClassFor($resource);
+        $response = $this->get(join('/', [...$uriPrefix, "{$resource}.json"]), $params);
+
+        return $this->transformCollection($response[$resource], $resourceClass);
+    }
+
+    protected function getResource(string $resource, $resourceId, array $uriPrefix = []): ApiResource
+    {
+        $key = Str::singular($resource);
+        $resourceClass = $this->resourceClassFor($resource);
+
+        $response = $this->get(join('/', [...$uriPrefix, "{$resource}/{$resourceId}.json"]));
+
+        return new $resourceClass($response[$key], $this);
+    }
+
+    protected function updateResource(string $resource, $resourceId, array $data, array $uriPrefix = []): ApiResource
+    {
+        $key = Str::singular($resource);
+        $resourceClass = $this->resourceClassFor($resource);
+
+        $response = $this->put(join('/', [...$uriPrefix, "{$resource}/{$resourceId}.json"]), [$key => $data]);
+
+        return new $resourceClass($response[$key], $this);
+    }
+
+    protected function deleteResource(string $resource, $resourceId, array $uriPrefix = []): void
+    {
+        $this->delete(join('/', [...$uriPrefix, "{$resource}/{$resourceId}.json"]));
     }
 
     public function getLastResponse(): Response

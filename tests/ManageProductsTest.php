@@ -152,7 +152,6 @@ class ManageProductsTest extends TestCase
 
         $count = $this->shopify->getProductsCount();
         $pages = $this->shopify->paginateProducts(['limit' => 2]);
-
         $results = collect();
 
         foreach ($pages as $page) {
