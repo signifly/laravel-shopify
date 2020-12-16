@@ -13,7 +13,7 @@ class Handler
         }
 
         if ($response->status() === 429) {
-            throw new TooManyRequestsException();
+            throw new TooManyRequestsException($response);
         }
 
         if ($response->status() === 422) {
