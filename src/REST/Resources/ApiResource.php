@@ -7,13 +7,10 @@ use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Macroable;
-use Signifly\Shopify\REST\ResourceKey;
-use Signifly\Shopify\Support\TransformsResources;
 use Signifly\Shopify\Shopify;
 
 class ApiResource implements ArrayAccess, Arrayable
 {
-    use TransformsResources;
     use Macroable;
 
     protected array $attributes = [];
@@ -138,11 +135,6 @@ class ApiResource implements ArrayAccess, Arrayable
     public function getAttributes()
     {
         return $this->attributes;
-    }
-
-    protected function getResourceKey(): ResourceKey
-    {
-        return ResourceKey::fromResource(static::class);
     }
 
     public function toArray()

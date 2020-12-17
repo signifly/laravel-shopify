@@ -2,42 +2,52 @@
 
 namespace Signifly\Shopify\REST\Resources;
 
-use Signifly\Shopify\REST\Actions\TransactionAction;
+use Illuminate\Support\Collection;
 
 class OrderResource extends ApiResource
 {
-    public function delete(): void
-    {
-        $this->shopify->orders()->destroy($this->id);
-    }
-
     public function update(array $data): ApiResource
     {
-        return $this->shopify->orders()->update($this->id, $data);
+        return $this->shopify->updateOrder($this->id, $data);
+    }
+
+    public function delete(): void
+    {
+        $this->shopify->deleteOrder($this->id);
     }
 
     public function cancel(): ApiResource
     {
-        return $this->shopify->orders()->cancel($this->id);
+        return $this->shopify->cancelOrder($this->id);
     }
 
     public function close(): ApiResource
     {
-        return $this->shopify->orders()->close($this->id);
+        return $this->shopify->closeOrder($this->id);
     }
 
     public function open(): ApiResource
     {
-        return $this->shopify->orders()->open($this->id);
+        return $this->shopify->openOrder($this->id);
     }
 
-    public function fulfillments()
+    public function getFulfillments(array $params = []): Collection
     {
-        return $this->shopify->orderFulfillments($this->id);
+        return $this->shopify->getOrderFulfillments($this->id, $params);
     }
 
-    public function transactions(): TransactionAction
+    public function getRefunds(array $params = []): Collection
     {
-        return $this->shopify->orderTransactions($this->id);
+        return $this->shopify->getOrderRefunds($this->id, $params);
+    }
+
+    public function getRisks(array $params = []): Collection
+    {
+        return $this->shopify->getOrderRisks($this->id, $params);
+    }
+
+    public function getTransactions(array $params = []): Collection
+    {
+        return $this->shopify->getOrderTransactions($this->id, $params);
     }
 }
