@@ -5,28 +5,47 @@ namespace Signifly\Shopify;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Signifly\Shopify\REST\Actions\ManagesAccess;
+use Signifly\Shopify\REST\Actions\ManagesAnalytics;
+use Signifly\Shopify\REST\Actions\ManagesBilling;
 use Signifly\Shopify\REST\Actions\ManagesCollections;
 use Signifly\Shopify\REST\Actions\ManagesCustomers;
+use Signifly\Shopify\REST\Actions\ManagesDiscounts;
 use Signifly\Shopify\REST\Actions\ManagesEvents;
+use Signifly\Shopify\REST\Actions\ManagesFulfillments;
 use Signifly\Shopify\REST\Actions\ManagesInventory;
+use Signifly\Shopify\REST\Actions\ManagesMarketingEvents;
 use Signifly\Shopify\REST\Actions\ManagesMetafields;
+use Signifly\Shopify\REST\Actions\ManagesOnlineStore;
 use Signifly\Shopify\REST\Actions\ManagesOrders;
+use Signifly\Shopify\REST\Actions\ManagesPlus;
 use Signifly\Shopify\REST\Actions\ManagesProducts;
+use Signifly\Shopify\REST\Actions\ManagesSalesChannel;
+use Signifly\Shopify\REST\Actions\ManagesStoreProperties;
 use Signifly\Shopify\REST\Cursor;
-use Signifly\Shopify\REST\Resources\ApiResource;
 use Signifly\Shopify\Support\MakesHttpRequests;
 use Signifly\Shopify\Support\TransformsResources;
 
 class Shopify
 {
     use MakesHttpRequests;
+    use ManagesAccess;
+    use ManagesAnalytics;
+    use ManagesBilling;
     use ManagesCollections;
     use ManagesCustomers;
+    use ManagesDiscounts;
     use ManagesEvents;
+    use ManagesFulfillments;
     use ManagesInventory;
+    use ManagesMarketingEvents;
     use ManagesMetafields;
+    use ManagesOnlineStore;
     use ManagesOrders;
+    use ManagesPlus;
     use ManagesProducts;
+    use ManagesSalesChannel;
+    use ManagesStoreProperties;
     use TransformsResources;
 
     protected string $apiKey;
@@ -47,13 +66,6 @@ class Shopify
     public function cursor(Collection $results): Cursor
     {
         return new Cursor($this, $results);
-    }
-
-    public function shop(): ApiResource
-    {
-        $response = $this->get('shop.json');
-
-        return new ApiResource($response->json('shop'), $this);
     }
 
     public function getHttpClient(): PendingRequest
