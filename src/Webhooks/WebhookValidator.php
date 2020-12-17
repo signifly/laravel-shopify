@@ -17,10 +17,10 @@ class WebhookValidator
         $this->secretProvider = $secretProvider;
     }
 
-    public function validate(string $signature, string $data): void
+    public function validate(string $signature, string $domain, string $data): void
     {
         // Validate webhook secret presence
-        $secret = $this->secretProvider->getSecret();
+        $secret = $this->secretProvider->getSecret($domain);
         throw_if(empty($secret), WebhookFailed::missingSigningSecret());
 
         // Validate webhook signature
@@ -39,6 +39,6 @@ class WebhookValidator
         // Validate topic presence
         throw_unless($request->shopifyTopic(), WebhookFailed::missingTopic());
 
-        $this->validate($signature, $request->getContent());
+        $this->validate($signature, $request->shopifyShopDomain(), $request->getContent());
     }
 }

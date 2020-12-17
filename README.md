@@ -8,31 +8,6 @@
 
 The `signifly/laravel-shopify` package allows you to easily make requests to the Shopify API.
 
-Below is a small example of how to use it.
-
-```php
-use Signifly\Shopify\Shopify;
-
-$shopify = app()->make(Shopify::class);
-
-// Retrieve all products
-$shopify->products()->all();
-
-// Count all products
-$shopify->products()->count();
-
-// Update a product
-$shopify->products()->update($id, $data);
-
-// Delete a product
-$shopify->products()->destroy($id);
-```
-
-Check the Shopify API reference to see what is available for each resource.
-
-## Documentation
-Until further documentation is provided, please have a look at the tests.
-
 ## Installation
 
 You can install the package via composer:
@@ -42,6 +17,94 @@ $ composer require signifly/laravel-shopify
 ```
 
 The package will automatically register itself.
+
+
+## Documentation
+
+### Initializing the Client
+
+You need to create a private app to receive the necessary credentials for interacting with Shopify.
+
+```php
+use Signifly\Shopify\Shopify;
+
+$shopify = new Shopify(
+    env('SHOPIFY_API_KEY'),
+    env('SHOPIFY_API_PASSWORD'),
+    env('SHOPIFY_DOMAIN'),
+    env('SHOPIFY_API_VERSION')
+);
+```
+
+**Resolve from the service container**
+
+Using class:
+
+```php
+use Signifly\Shopify\Shopify;
+
+$shopify = app(Shopify::class);
+```
+
+Using alias:
+
+```php
+$shopify = app('shopify');
+```
+
+**Resolve using the factory**
+
+```php
+$shopify = \Signifly\Shopify\Factory::fromConfig();
+```
+
+**Resolve using dependency injection**
+
+You may also inject the Shopify class into a method of a Controller:
+
+```php
+use Illuminate\Http\Request;
+use Signifly\Shopify\Shopify;
+
+class ProductController
+{
+    public function index(Request $request, Shopify $shopify)
+    {
+        // do something here
+    }
+}
+```
+
+**By default it will look for credentials in your config, when resolving the client.*
+
+### Making requests
+
+Once a client has been initialized, you may make request to Shopify using the available methods. 
+
+Let's take a look at a couple of examples:
+
+```php
+$shopify = \Signifly\Shopify\Factory::fromConfig();
+
+// Get products
+$products = $shopify->getProducts(); // returns a Collection of ProductResource
+
+// Create a product
+$product = $shopify->createProduct($data); // returns a ProductResource
+
+// Get a specific product
+$product = $shopify->getProduct($productId); // returns a ProductResource
+
+// Update a product
+$product = $shopify->updateProduct($productId, $data); // returns a ProductResource 
+
+// Deleting a product
+$shopify->deleteProduct($productId);
+```
+
+**Please refer to the [official documentation](https://shopify.dev/docs/admin-api/rest/reference) to check which attributes are required for each request.*
+
+
 
 ## Testing
 ```bash

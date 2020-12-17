@@ -1,15 +1,6 @@
 <?php
 
 return [
-    /*
-     * The profile to use.
-     */
-    'profile' => \Signifly\Shopify\Laravel\Profiles\ConfigProfile::class,
-
-    /*
-     * The handlerStack to use.
-     */
-    'handlerStackProvider' => \Signifly\Shopify\Laravel\Providers\DefaultHandlerStackProvider::class,
 
     'credentials' => [
 
@@ -32,25 +23,6 @@ return [
          * The shopify api version.
          */
         'api_version' => env('SHOPIFY_API_VERSION'),
-
-    ],
-
-    'rate_limit' => [
-
-        /*
-         * The buffer from the max calls limit.
-         */
-        'buffer' => 3,
-
-        /*
-         * The request cycle / leak rate in percentage per second.
-         */
-        'cycle' => 0.5,
-
-        /*
-         * The processes that can run in parallel.
-         */
-        'processes' => 1,
 
     ],
 
