@@ -19,35 +19,11 @@ class ShopifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->setupConfig($this->app);
-
-        /*
-         * @todo Perhaps allow for options allowing a user to modify aspects of the route...?
-         */
-        Route::macro('shopifyWebhooks', function () {
-            return $this->post('shopify/webhooks', [WebhookController::class, 'handle']);
-        });
-
-        Request::macro('shopifyShopDomain', function () {
-            return $this->header(Webhook::HEADER_SHOP_DOMAIN);
-        });
-
-        Request::macro('shopifyHmacSignature', function () {
-            return $this->header(Webhook::HEADER_HMAC_SIGNATURE);
-        });
-
-        Request::macro('shopifyTopic', function () {
-            return $this->header(Webhook::HEADER_TOPIC);
-        });
+        $this->registerConfig();
+        $this->registerMacros();
     }
 
-    /**
-     * Setup the config.
-     *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     * @return void
-     */
-    protected function setupConfig(Application $app)
+    protected function registerConfig()
     {
         $this->publishes([
             __DIR__.'/../config/shopify.php' => config_path('shopify.php'),
@@ -63,9 +39,7 @@ class ShopifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Shopify::class, function () {
-            return Factory::fromConfig();
-        });
+        $this->app->singleton(Shopify::class, fn () => Factory::fromConfig());
 
         $this->app->alias(Shopify::class, 'shopify');
 
@@ -74,5 +48,18 @@ class ShopifyServiceProvider extends ServiceProvider
 
             return $app->make($secretProvider);
         });
+    }
+
+    protected function registerMacros(): void
+    {
+        Route::macro('shopifyWebhooks', function () {
+            return $this->post('shopify/webhooks', [WebhookController::class, 'handle']);
+        });
+
+        Request::macro('shopifyShopDomain', fn () => $this->header(Webhook::HEADER_SHOP_DOMAIN));
+
+        Request::macro('shopifyHmacSignature', fn () => $this->header(Webhook::HEADER_HMAC_SIGNATURE));
+
+        Request::macro('shopifyTopic', fn () => $this->header(Webhook::HEADER_TOPIC));
     }
 }
