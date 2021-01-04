@@ -57,10 +57,7 @@ class Shopify
 
     public function __construct(string $apiKey, string $password, string $domain, string $apiVersion)
     {
-        $this->apiKey = $apiKey;
-        $this->password = $password;
-        $this->domain = $domain;
-        $this->apiVersion = $apiVersion;
+        $this->withCredentials($apiKey, $password, $domain, $apiVersion);
     }
 
     public function cursor(Collection $results): Cursor
@@ -88,6 +85,18 @@ class Shopify
     public function tap(callable $callback): self
     {
         $callback($this->getHttpClient());
+
+        return $this;
+    }
+
+    public function withCredentials(string $apiKey, string $password, string $domain, string $apiVersion): self
+    {
+        $this->apiKey = $apiKey;
+        $this->password = $password;
+        $this->domain = $domain;
+        $this->apiVersion = $apiVersion;
+
+        $this->httpClient = null;
 
         return $this;
     }

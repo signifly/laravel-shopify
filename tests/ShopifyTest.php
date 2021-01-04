@@ -33,4 +33,18 @@ class ShopifyTest extends TestCase
 
         $this->assertSame($clientA, $clientB);
     }
+
+    /** @test **/
+    public function it_updates_credentials_and_resets_client()
+    {
+        $shopify = $this->app->make('shopify');
+
+        $clientA = $shopify->getHttpClient();
+
+        $shopify = $shopify->withCredentials('1234', '1234', '1234', '2021-01');
+
+        $clientB = $shopify->getHttpClient();
+
+        $this->assertNotSame($clientA, $clientB);
+    }
 }
