@@ -77,7 +77,7 @@ class ProductController
 
 **By default it will look for credentials in your config, when resolving the client.*
 
-### Making requests
+### Making Requests
 
 Once a client has been initialized, you may make request to Shopify using the available methods. 
 
