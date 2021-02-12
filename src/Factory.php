@@ -13,4 +13,14 @@ class Factory
             config('shopify.credentials.api_version'),
         );
     }
+
+    public static function fromArray(array $data): Shopify
+    {
+        return new Shopify(
+            $data['api_key'],
+            $data['password'],
+            $data['domain'],
+            $data['api_version']
+        );
+    }
 }
