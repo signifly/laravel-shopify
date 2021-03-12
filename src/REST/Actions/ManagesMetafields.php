@@ -98,4 +98,9 @@ trait ManagesMetafields
     {
         return $this->getResources('metafields', $params, ['orders', $orderId]);
     }
+
+    public function getCollectionMetafields($collectionId, array $params = []): Collection
+    {
+        return $this->getResources('metafields', $params, ['collections', $collectionId]);
+    }
 }
