@@ -6,6 +6,8 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Signifly\Shopify\Exceptions\ErrorHandlerInterface;
+use Signifly\Shopify\Exceptions\Handler;
 use Signifly\Shopify\Http\Controllers\WebhookController;
 use Signifly\Shopify\Webhooks\SecretProvider;
 use Signifly\Shopify\Webhooks\Webhook;
@@ -42,6 +44,8 @@ class ShopifyServiceProvider extends ServiceProvider
         $this->app->singleton(Shopify::class, fn () => Factory::fromConfig());
 
         $this->app->alias(Shopify::class, 'shopify');
+
+        $this->app->bind(ErrorHandlerInterface::class, Handler::class);
 
         $this->app->singleton(SecretProvider::class, function (Application $app) {
             $secretProvider = config('shopify.webhooks.secret_provider');

@@ -5,7 +5,7 @@ namespace Signifly\Shopify\Support;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Signifly\Shopify\Exceptions\Handler;
+use Signifly\Shopify\Exceptions\ErrorHandlerInterface;
 use Signifly\Shopify\REST\Resources\ApiResource;
 use Signifly\Shopify\Shopify;
 
@@ -122,6 +122,6 @@ trait MakesHttpRequests
     {
         $this->lastResponse = $response;
 
-        app(Handler::class)->handle($response);
+        app(ErrorHandlerInterface::class)->handle($response);
     }
 }

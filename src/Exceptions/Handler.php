@@ -4,7 +4,7 @@ namespace Signifly\Shopify\Exceptions;
 
 use Illuminate\Http\Client\Response;
 
-class Handler
+class Handler implements ErrorHandlerInterface
 {
     public function handle(Response $response)
     {
