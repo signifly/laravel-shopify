@@ -59,12 +59,27 @@ trait ManagesMetafields
         return $this->createResource('metafields', $data, ['variants', $variantId]);
     }
 
-    public function getVariantMetafieldsCount($productId, $variantId, array $params = []): int
+    public function getVariantMetafieldsCount($variantId, array $params = []): int
+    {
+        return $this->getResourceCount('metafields', $params, ['variants', $variantId]);
+    }
+
+    public function getVariantMetafields($variantId, array $params = []): Collection
+    {
+        return $this->getResources('metafields', $params, ['variants', $variantId]);
+    }
+
+    public function createProductVariantMetafield($productId, $variantId, array $data): MetafieldResource
+    {
+        return $this->createResource('metafields', $data, ['products', $productId, 'variants', $variantId]);
+    }
+
+    public function getProductVariantMetafieldsCount($productId, $variantId, array $params = []): int
     {
         return $this->getResourceCount('metafields', $params, ['products', $productId, 'variants', $variantId]);
     }
 
-    public function getVariantMetafields($productId, $variantId, array $params = []): Collection
+    public function getProductVariantMetafields($productId, $variantId, array $params = []): Collection
     {
         return $this->getResources('metafields', $params, ['products', $productId, 'variants', $variantId]);
     }
