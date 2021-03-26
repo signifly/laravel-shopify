@@ -9,7 +9,7 @@ class ImageResource extends ApiResource
         $this->shopify->deleteProductImage($this->product_id, $this->id);
     }
 
-    public function update(array $data): ImageResource
+    public function update(array $data): self
     {
         return $this->shopify->updateProductImage($this->product_id, $this->id, $data);
     }

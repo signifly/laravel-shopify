@@ -4,7 +4,7 @@ namespace Signifly\Shopify\REST\Resources;
 
 class MetafieldResource extends ApiResource
 {
-    public function update(array $data): MetafieldResource
+    public function update(array $data): self
     {
         return $this->shopify->updateMetafield($this->id, $data);
     }

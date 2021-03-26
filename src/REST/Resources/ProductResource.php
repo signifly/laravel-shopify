@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 
 class ProductResource extends ApiResource
 {
-    public function update(array $data): ProductResource
+    public function update(array $data): self
     {
         return $this->shopify->updateProduct($this->id, $data);
     }
@@ -16,12 +16,12 @@ class ProductResource extends ApiResource
         $this->shopify->deleteProduct($this->id);
     }
 
-    public function publish(): ProductResource
+    public function publish(): self
     {
         return $this->update(['published' => true]);
     }
 
-    public function unpublish(): ProductResource
+    public function unpublish(): self
     {
         return $this->update(['published' => false]);
     }

@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 
 class CustomCollectionResource extends ApiResource
 {
-    public function update(array $data): CustomCollectionResource
+    public function update(array $data): self
     {
         return $this->shopify->updateCustomCollection($this->id, $data);
     }

@@ -4,7 +4,7 @@ namespace Signifly\Shopify\REST\Resources;
 
 class VariantResource extends ApiResource
 {
-    public function update(array $data): VariantResource
+    public function update(array $data): self
     {
         return $this->shopify->updateVariant($this->id, $data);
     }

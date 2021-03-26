@@ -68,14 +68,14 @@ trait MakesHttpRequests
         $key = Str::singular($resource);
         $resourceClass = $this->resourceClassFor($resource);
 
-        $response = $this->post(join('/', [...$uriPrefix, "{$resource}.json"]), [$key => $data]);
+        $response = $this->post(implode('/', [...$uriPrefix, "{$resource}.json"]), [$key => $data]);
 
         return new $resourceClass($response[$key], $this);
     }
 
     protected function getResourceCount(string $resource, array $params, array $uriPrefix = []): int
     {
-        $response = $this->get(join('/', [...$uriPrefix, "{$resource}/count.json"]), $params);
+        $response = $this->get(implode('/', [...$uriPrefix, "{$resource}/count.json"]), $params);
 
         return $response['count'] ?? 0;
     }
@@ -83,7 +83,7 @@ trait MakesHttpRequests
     protected function getResources(string $resource, array $params, array $uriPrefix = []): Collection
     {
         $resourceClass = $this->resourceClassFor($resource);
-        $response = $this->get(join('/', [...$uriPrefix, "{$resource}.json"]), $params);
+        $response = $this->get(implode('/', [...$uriPrefix, "{$resource}.json"]), $params);
 
         return $this->transformCollection($response[$resource], $resourceClass);
     }
@@ -93,7 +93,7 @@ trait MakesHttpRequests
         $key = Str::singular($resource);
         $resourceClass = $this->resourceClassFor($resource);
 
-        $response = $this->get(join('/', [...$uriPrefix, "{$resource}/{$resourceId}.json"]));
+        $response = $this->get(implode('/', [...$uriPrefix, "{$resource}/{$resourceId}.json"]));
 
         return new $resourceClass($response[$key], $this);
     }
@@ -103,14 +103,14 @@ trait MakesHttpRequests
         $key = Str::singular($resource);
         $resourceClass = $this->resourceClassFor($resource);
 
-        $response = $this->put(join('/', [...$uriPrefix, "{$resource}/{$resourceId}.json"]), [$key => $data]);
+        $response = $this->put(implode('/', [...$uriPrefix, "{$resource}/{$resourceId}.json"]), [$key => $data]);
 
         return new $resourceClass($response[$key], $this);
     }
 
     protected function deleteResource(string $resource, $resourceId, array $uriPrefix = []): void
     {
-        $this->delete(join('/', [...$uriPrefix, "{$resource}/{$resourceId}.json"]));
+        $this->delete(implode('/', [...$uriPrefix, "{$resource}/{$resourceId}.json"]));
     }
 
     public function getLastResponse(): Response

@@ -39,7 +39,7 @@ class ShopifyServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/shopify.php' => config_path('shopify.php'),
+                __DIR__.'/../config/shopify.php' => config_path('shopify.php'),
             ], 'laravel-shopify');
         }
 

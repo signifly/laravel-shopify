@@ -4,7 +4,7 @@ namespace Signifly\Shopify\REST\Resources;
 
 class WebhookResource extends ApiResource
 {
-    public function update(array $data): WebhookResource
+    public function update(array $data): self
     {
         return $this->shopify->updateWebhook($this->id, $data);
     }

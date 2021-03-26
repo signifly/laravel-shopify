@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 
 class CustomerResource extends ApiResource
 {
-    public function update(array $data): CustomerResource
+    public function update(array $data): self
     {
         return $this->shopify->updateCustomer($this->id, $data);
     }
