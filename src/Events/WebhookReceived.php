@@ -3,7 +3,7 @@
 namespace Signifly\Shopify\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Signifly\Shopify\Laravel\Webhooks\Webhook;
+use Signifly\Shopify\Webhooks\Webhook;
 
 class WebhookReceived
 {
