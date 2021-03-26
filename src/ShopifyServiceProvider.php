@@ -14,31 +14,12 @@ use Signifly\Shopify\Webhooks\Webhook;
 
 class ShopifyServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application events.
-     *
-     * @return void
-     */
     public function boot()
     {
-        $this->registerConfig();
+        $this->publishConfig();
         $this->registerMacros();
     }
 
-    protected function registerConfig()
-    {
-        $this->publishes([
-            __DIR__.'/../config/shopify.php' => config_path('shopify.php'),
-        ], 'laravel-shopify');
-
-        $this->mergeConfigFrom(__DIR__.'/../config/shopify.php', 'shopify');
-    }
-
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
     public function register()
     {
         $this->app->singleton(Shopify::class, fn () => Factory::fromConfig());
@@ -54,10 +35,19 @@ class ShopifyServiceProvider extends ServiceProvider
         });
     }
 
+    protected function publishConfig()
+    {
+        $this->publishes([
+            __DIR__.'/../config/shopify.php' => config_path('shopify.php'),
+        ], 'laravel-shopify');
+
+        $this->mergeConfigFrom(__DIR__.'/../config/shopify.php', 'shopify');
+    }
+
     protected function registerMacros(): void
     {
-        Route::macro('shopifyWebhooks', function () {
-            return $this->post('shopify/webhooks', [WebhookController::class, 'handle']);
+        Route::macro('shopifyWebhooks', function (string $uri = 'shopify/webhooks') {
+            return $this->post($uri, [WebhookController::class, 'handle']);
         });
 
         Request::macro('shopifyShopDomain', fn () => $this->header(Webhook::HEADER_SHOP_DOMAIN));
