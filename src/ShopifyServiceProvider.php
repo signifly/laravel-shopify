@@ -37,9 +37,11 @@ class ShopifyServiceProvider extends ServiceProvider
 
     protected function publishConfig()
     {
-        $this->publishes([
-            __DIR__.'/../config/shopify.php' => config_path('shopify.php'),
-        ], 'laravel-shopify');
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../config/shopify.php' => config_path('shopify.php'),
+            ], 'laravel-shopify');
+        }
 
         $this->mergeConfigFrom(__DIR__.'/../config/shopify.php', 'shopify');
     }
@@ -47,7 +49,7 @@ class ShopifyServiceProvider extends ServiceProvider
     protected function registerMacros(): void
     {
         Route::macro('shopifyWebhooks', function (string $uri = 'shopify/webhooks') {
-            return $this->post($uri, [WebhookController::class, 'handle']);
+            return $this->post($uri, [WebhookController::class, 'handle'])->name('shopify.webhooks');
         });
 
         Request::macro('shopifyShopDomain', fn () => $this->header(Webhook::HEADER_SHOP_DOMAIN));

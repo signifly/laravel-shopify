@@ -22,7 +22,7 @@ class WebhookControllerTest extends TestCase
     /** @test **/
     public function it_is_missing_a_signature()
     {
-        $response = $this->postJson(url('shopify/webhooks'));
+        $response = $this->postJson($this->getUrl());
 
         $response->assertStatus(400);
         $response->assertSee('The request did not contain a header named `X-Shopify-Hmac-Sha256`.');
@@ -33,7 +33,7 @@ class WebhookControllerTest extends TestCase
     {
         $signature = app(WebhookValidator::class)->calculateSignature('[]', config('shopify.webhooks.secret'));
 
-        $response = $this->postJson(url('shopify/webhooks'), [], $this->getValidHeaders([
+        $response = $this->postJson($this->getUrl(), [], $this->getValidHeaders([
             Webhook::HEADER_HMAC_SIGNATURE => $signature,
         ]));
 
@@ -80,7 +80,7 @@ class WebhookControllerTest extends TestCase
 
     private function getUrl(): string
     {
-        return url('shopify/webhooks');
+        return route('shopify.webhooks');
     }
 
     private function getValidHeaders(array $overwrites = []): array
