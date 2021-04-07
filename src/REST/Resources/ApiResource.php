@@ -59,6 +59,15 @@ class ApiResource implements ArrayAccess, Arrayable
     }
 
     /**
+     * @param  string $key
+     * @return bool
+     */
+    public function __isset($key): bool
+    {
+        return array_key_exists($key, $this->attributes);
+    }
+
+    /**
      * Determine if the given attribute exists.
      *
      * @param  mixed  $offset
