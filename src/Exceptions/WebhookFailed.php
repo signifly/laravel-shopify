@@ -29,7 +29,7 @@ class WebhookFailed extends Exception
     /**
      * Render the exception into an HTTP response.
      *
-     * NOTE: https://laravel.com/docs/5.5/errors#renderable-exceptions
+     * NOTE: https://laravel.com/docs/8.x/errors#renderable-exceptions
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
