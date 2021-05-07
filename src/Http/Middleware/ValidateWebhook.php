@@ -1,42 +1,24 @@
 <?php
 
-namespace Signifly\Shopify\Laravel\Http\Middleware;
+namespace Signifly\Shopify\Http\Middleware;
 
 use Closure;
-use Signifly\Shopify\Laravel\Exceptions\WebhookFailed;
-use Signifly\Shopify\Laravel\Support\Facades\Shopify;
+use Illuminate\Http\Request;
+use Signifly\Shopify\Webhooks\WebhookValidator;
 
 class ValidateWebhook
 {
-    public function handle($request, Closure $next)
+    private WebhookValidator $webhookValidator;
+
+    public function __construct(WebhookValidator $webhookValidator)
     {
-        $signature = $request->shopifyHmacSha256();
-
-        if (! $signature) {
-            throw WebhookFailed::missingSignature();
-        }
-
-        $secret = $this->getSecretProvider()->getSecret($request->shopifyShopDomain());
-
-        if (empty($secret)) {
-            throw WebhookFailed::signingSecretNotSet();
-        }
-
-        if (! Shopify::verifyWebhook($signature, $request->getContent(), $secret)) {
-            throw WebhookFailed::invalidSignature($signature);
-        }
-
-        if (! $request->shopifyTopic()) {
-            throw WebhookFailed::missingTopic($request);
-        }
-
-        return $next($request);
+        $this->webhookValidator = $webhookValidator;
     }
 
-    protected function getSecretProvider()
+    public function handle(Request $request, Closure $next)
     {
-        $secretProviderClass = config('shopify.webhooks.secret_provider');
+        $this->webhookValidator->validateFromRequest($request);
 
-        return new $secretProviderClass();
+        return $next($request);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Signifly\Shopify\Laravel\Support\Facades;
+namespace Signifly\Shopify\Support\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

@@ -1,13 +1,15 @@
 <?php
 
-namespace Signifly\Shopify\Laravel\Http\Controllers;
+namespace Signifly\Shopify\Http\Controllers;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Event;
-use Signifly\Shopify\Laravel\Http\Middleware\ValidateWebhook;
-use Signifly\Shopify\Laravel\Webhooks\Webhook;
+use Signifly\Shopify\Http\Middleware\ValidateWebhook;
+use Signifly\Shopify\Webhooks\Webhook;
 
 class WebhookController extends Controller
 {
@@ -16,37 +18,16 @@ class WebhookController extends Controller
         $this->middleware(ValidateWebhook::class);
     }
 
-    /**
-     * Handle the incoming webhook.
-     *
-     * @param  Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function handle(Request $request)
     {
         try {
-            Event::dispatch(
-                $this->getEventName($this->buildWebhook($request)),
-                $this->buildWebhook($request)
-            );
+            $webhook = Webhook::fromRequest($request);
 
-            return response()->json();
+            Event::dispatch($webhook->eventName(), $webhook);
+
+            return new JsonResponse();
         } catch (Exception $e) {
-            return response('Error handling webhook', 500);
+            return new Response('Error handling webhook', 500);
         }
-    }
-
-    protected function buildWebhook(Request $request)
-    {
-        return new Webhook(
-            $request->shopifyShopDomain(),
-            $request->shopifyTopic(),
-            json_decode($request->getContent(), true)
-        );
-    }
-
-    protected function getEventName(Webhook $webhook)
-    {
-        return 'laravel-shopify-webhook.'.str_replace('/', '-', $webhook->topic());
     }
 }

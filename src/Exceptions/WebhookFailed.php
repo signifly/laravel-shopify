@@ -1,6 +1,6 @@
 <?php
 
-namespace Signifly\Shopify\Laravel\Exceptions;
+namespace Signifly\Shopify\Exceptions;
 
 use Exception;
 
@@ -16,7 +16,7 @@ class WebhookFailed extends Exception
         return new static("The signature `{$signature}` found in the header named `X-Shopify-Hmac-Sha256` is invalid.");
     }
 
-    public static function signingSecretNotSet()
+    public static function missingSigningSecret()
     {
         return new static('The webhook signing secret is not set.');
     }
@@ -29,7 +29,7 @@ class WebhookFailed extends Exception
     /**
      * Render the exception into an HTTP response.
      *
-     * NOTE: https://laravel.com/docs/5.5/errors#renderable-exceptions
+     * NOTE: https://laravel.com/docs/8.x/errors#renderable-exceptions
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
