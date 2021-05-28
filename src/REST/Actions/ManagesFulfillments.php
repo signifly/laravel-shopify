@@ -24,6 +24,11 @@ trait ManagesFulfillments
         return $this->getResource('fulfillments', $fulfillmentId, ['orders', $orderId]);
     }
 
+    public function createOrderFulfillment($orderId, array $data): ApiResource
+    {
+        return $this->createResource('fulfillments', $data, ['orders', $orderId]);
+    }
+
     public function createFulfillment(array $data): ApiResource
     {
         return $this->createResource('fulfillments', $data);
