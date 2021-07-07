@@ -1,29 +1,30 @@
 name: Check & fix styling
 
-on: [ push ]
+on: push
 
 jobs:
-  style:
+  php-cs-fixer:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Fix style
-        uses: docker://oskarstark/php-cs-fixer-ga
+      - uses: actions/checkout@v2
         with:
-          args: --config=.php-cs-fixer.php --allow-risky=yes
+          ref: ${{ github.head_ref }}
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v2.3.0
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          commit_message: Fix styling
-          branch: ${{ steps.extract_branch.outputs.branch }}
+          php-version: 8.0
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_mysql, bcmath, soap, intl, gd, exif, iconv, imagick
+          coverage: none
+
+      - name: Composer install
+        run: composer install
+
+      - name: Run php-cs-fixer
+        run: ./vendor/bin/php-cs-fixer fix
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply php-cs-fixer changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
