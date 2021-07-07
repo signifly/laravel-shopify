@@ -1,7 +1,9 @@
+![shopify_logo](https://user-images.githubusercontent.com/5956778/124729976-33b6fb00-df11-11eb-997f-1c8ce5e17152.png)
+
 # Make requests to the Shopify API from your Laravel app
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/signifly/laravel-shopify.svg?style=flat-square)](https://packagist.org/packages/signifly/laravel-shopify)
-[Tests](https://github.com/signifly/laravel-janitor/workflows/Tests/badge.svg)
+![Tests](https://github.com/signifly/laravel-janitor/workflows/Tests/badge.svg)
 [![StyleCI](https://styleci.io/repos/119509746/shield?branch=master)](https://styleci.io/repos/119509746)
 [![Quality Score](https://img.shields.io/scrutinizer/g/signifly/laravel-shopify.svg?style=flat-square)](https://scrutinizer-ci.com/g/signifly/laravel-shopify)
 [![Total Downloads](https://img.shields.io/packagist/dt/signifly/laravel-shopify.svg?style=flat-square)](https://packagist.org/packages/signifly/laravel-shopify)
@@ -13,7 +15,7 @@ The `signifly/laravel-shopify` package allows you to easily make requests to the
 You can install the package via composer:
 
 ```bash
-$ composer require signifly/laravel-shopify
+composer require signifly/laravel-shopify
 ```
 
 The package will automatically register itself.
@@ -26,7 +28,7 @@ You can find the full documentation [here](https://www.notion.so/signifly/Larave
 
 ## Testing
 ```bash
-$ composer test
+composer test
 ```
 
 ## Security
