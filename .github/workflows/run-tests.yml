@@ -8,13 +8,13 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
+        os: [ ubuntu-latest ]
         php: [ 7.4, 8.0 ]
         laravel: [ 8.* ]
         dependency-version: [ prefer-lowest, prefer-stable ]
         include:
           - laravel: 8.*
-            testbench: 6.*
+            testbench: ^6.15
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
@@ -40,5 +40,6 @@ jobs:
           composer config --global --auth http-basic.repo.packagist.com token ${{ secrets.COMPOSER_TOKEN }}
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+
       - name: Execute tests
         run: vendor/bin/phpunit
