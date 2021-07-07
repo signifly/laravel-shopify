@@ -1,4 +1,6 @@
-![shopify_logo](https://user-images.githubusercontent.com/5956778/124729976-33b6fb00-df11-11eb-997f-1c8ce5e17152.png)
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/5956778/124729976-33b6fb00-df11-11eb-997f-1c8ce5e17152.png" width="400" />
+</p>
 
 # Make requests to the Shopify API from your Laravel app
 
