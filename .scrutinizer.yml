@@ -16,3 +16,10 @@ checks:
     fix_line_ending: true
     fix_identation_4spaces: true
     fix_doc_comments: true
+
+build:
+  nodes:
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
