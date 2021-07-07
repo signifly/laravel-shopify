@@ -5,7 +5,7 @@
 # Make requests to the Shopify API from your Laravel app
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/signifly/laravel-shopify.svg?style=flat-square)](https://packagist.org/packages/signifly/laravel-shopify)
-![Tests](https://github.com/signifly/laravel-janitor/workflows/Tests/badge.svg)
+![Tests](https://github.com/signifly/laravel-shopify/workflows/Tests/badge.svg)
 [![StyleCI](https://styleci.io/repos/119509746/shield?branch=master)](https://styleci.io/repos/119509746)
 [![Quality Score](https://img.shields.io/scrutinizer/g/signifly/laravel-shopify.svg?style=flat-square)](https://scrutinizer-ci.com/g/signifly/laravel-shopify)
 [![Total Downloads](https://img.shields.io/packagist/dt/signifly/laravel-shopify.svg?style=flat-square)](https://packagist.org/packages/signifly/laravel-shopify)
