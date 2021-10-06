@@ -306,8 +306,6 @@ class ManagesOnlineStoreTest extends TestCase
         Http::assertSequencesAreEmpty();
     }
 
-
-
     public function it_creates_a_page()
     {
         Http::fake([
