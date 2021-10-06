@@ -151,7 +151,7 @@ class ManagesOnlineStoreTest extends TestCase
 
         $count = $this->shopify->getRedirectsCount();
         $pages = $this->shopify->paginateRedirects(['limit' => 2]);
-      
+
         $results = collect();
 
         foreach ($pages as $page) {
