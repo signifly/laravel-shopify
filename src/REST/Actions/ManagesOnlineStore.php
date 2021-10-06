@@ -26,7 +26,7 @@ trait ManagesOnlineStore
 
     public function paginateRedirects(array $params = []): Cursor
     {
-        return $this->cursor($this->getOrders($params));
+        return $this->cursor($this->getRedirects($params));
     }
 
     public function getRedirects(array $params = []): Collection
