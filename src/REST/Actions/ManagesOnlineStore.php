@@ -5,6 +5,7 @@ namespace Signifly\Shopify\REST\Actions;
 use Illuminate\Support\Collection;
 use Signifly\Shopify\REST\Cursor;
 use Signifly\Shopify\REST\Resources\ApiResource;
+use Signifly\Shopify\REST\Resources\ArticleResource;
 use Signifly\Shopify\REST\Resources\BlogResource;
 use Signifly\Shopify\REST\Resources\PageResource;
 use Signifly\Shopify\Shopify;
@@ -118,5 +119,54 @@ trait ManagesOnlineStore
     public function deletePage($pageId): void
     {
         $this->deleteResource('pages', $pageId);
+    }
+
+    public function createArticle(array $data): ArticleResource
+    {
+        return $this->createResource('articles', $data);
+    }
+
+    public function getArticlesCount(array $params = []): int
+    {
+        return $this->getResourceCount('articles', $params);
+    }
+
+    public function paginateArticles(array $params = []): Cursor
+    {
+        return $this->cursor($this->getArticles($params));
+    }
+
+    public function getArticles(array $params = []): Collection
+    {
+        return $this->getResources('articles', $params);
+    }
+
+    public function getArticleAuthors(): array
+    {
+        $response = $this->get('articles/authors.json');
+
+        return $response->json('authors');
+    }
+
+    public function getArticleTags(array $params = []): array
+    {
+        $response = $this->get('articles/tags.json', $params);
+
+        return $response->json('tags');
+    }
+
+    public function getArticle($articleId): ArticleResource
+    {
+        return $this->getResource('articles', $articleId);
+    }
+
+    public function updateArticle($articleId, $data): ArticleResource
+    {
+        return $this->updateResource('articles', $articleId, $data);
+    }
+
+    public function deleteArticle($articleId): void
+    {
+        $this->deleteResource('articles', $articleId);
     }
 }

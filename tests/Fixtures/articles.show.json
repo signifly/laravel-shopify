@@ -1,0 +1,18 @@
+{
+    "article": {
+        "id": 1051293781,
+        "title": "My new Article title",
+        "created_at": "2021-10-01T16:41:24-04:00",
+        "body_html": "<h1>I like articles</h1>\n<p><strong>Yea</strong>, I like posting them through <span class=\"caps\">REST</span>.</p>",
+        "blog_id": 241253187,
+        "author": "John Smith",
+        "user_id": null,
+        "published_at": "2011-03-24T11:45:47-04:00",
+        "updated_at": "2021-10-01T16:41:24-04:00",
+        "summary_html": null,
+        "template_suffix": null,
+        "handle": "my-new-article-title",
+        "tags": "Has Been Tagged, This Post",
+        "admin_graphql_api_id": "gid://shopify/OnlineStoreArticle/1051293781"
+    }
+}
