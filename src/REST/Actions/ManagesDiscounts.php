@@ -38,4 +38,39 @@ trait ManagesDiscounts
     {
         $this->deleteResource('discount_codes', $discountCodeId, ['price_rules', $priceRuleId]);
     }
+
+    public function createPriceRule(array $data): ApiResource
+    {
+        return $this->createResource('price_rules', $data);
+    }
+
+    public function getPriceRulesCount(array $params = []): int
+    {
+        return $this->getResourceCount('price_rules', $params);
+    }
+
+    public function paginatePriceRules(array $params = []): Cursor
+    {
+        return $this->cursor($this->getPriceRules($params));
+    }
+
+    public function getPriceRules(array $params = []): Collection
+    {
+        return $this->getResources('price_rules', $params);
+    }
+
+    public function getPriceRule($priceRuleId): ApiResource
+    {
+        return $this->getResource('price_rules', $priceRuleId);
+    }
+
+    public function updatePriceRule($priceRuleId, $data): ApiResource
+    {
+        return $this->updateResource('price_rules', $priceRuleId, $data);
+    }
+
+    public function deletePriceRule($priceRuleId): void
+    {
+        $this->deleteResource('price_rules', $priceRuleId);
+    }
 }
