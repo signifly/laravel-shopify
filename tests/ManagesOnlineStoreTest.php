@@ -6,6 +6,7 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Signifly\Shopify\Factory;
+use Signifly\Shopify\REST\Cursor;
 use Signifly\Shopify\REST\Resources\ApiResource;
 use Signifly\Shopify\Shopify;
 
@@ -137,5 +138,27 @@ class ManagesOnlineStoreTest extends TestCase
 
             return true;
         });
+    }
+
+    /** @test **/
+    public function it_paginates_redirects()
+    {
+        Http::fakeSequence()
+            ->push(['count' => 6], 200)
+            ->push($this->fixture('redirects.all'), 200, ['Link' => '<'.$this->shopify->getBaseUrl().'/redirects.json?page_info=1234&limit=2>; rel=next'])
+            ->push($this->fixture('redirects.all'), 200);
+
+        $count = $this->shopify->getRedirectsCount();
+        $pages = $this->shopify->paginateRedirects(['limit' => 2]);
+        $results = collect();
+
+        foreach ($pages as $page) {
+            $results = $results->merge($page);
+        }
+
+        $this->assertInstanceOf(Cursor::class, $pages);
+        $this->assertEquals($count, $results->count());
+
+        Http::assertSequencesAreEmpty();
     }
 }
