@@ -1,0 +1,15 @@
+{
+    "page": {
+        "id": 1025371369,
+        "title": "Warranty information",
+        "shop_id": 690933842,
+        "handle": "warranty-information",
+        "body_html": "<h2>Warranty</h2>\n<p>Returns accepted if we receive items <strong>30 days after purchase</strong>.</p>",
+        "author": "Shopify API",
+        "created_at": "2021-10-01T17:06:13-04:00",
+        "updated_at": "2021-10-01T17:06:13-04:00",
+        "published_at": "2021-10-01T17:06:13-04:00",
+        "template_suffix": null,
+        "admin_graphql_api_id": "gid://shopify/OnlineStorePage/1025371369"
+    }
+}

@@ -9,6 +9,7 @@ use Signifly\Shopify\Factory;
 use Signifly\Shopify\REST\Cursor;
 use Signifly\Shopify\REST\Resources\ApiResource;
 use Signifly\Shopify\REST\Resources\BlogResource;
+use Signifly\Shopify\REST\Resources\PageResource;
 use Signifly\Shopify\Shopify;
 
 class ManagesOnlineStoreTest extends TestCase
@@ -292,6 +293,149 @@ class ManagesOnlineStoreTest extends TestCase
 
         $count = $this->shopify->getBlogsCount();
         $pages = $this->shopify->paginateBlogs(['limit' => 2]);
+
+        $results = collect();
+
+        foreach ($pages as $page) {
+            $results = $results->merge($page);
+        }
+
+        $this->assertInstanceOf(Cursor::class, $pages);
+        $this->assertEquals($count, $results->count());
+
+        Http::assertSequencesAreEmpty();
+    }
+
+
+
+    public function it_creates_a_page()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('pages.show')),
+        ]);
+
+        $resource = $this->shopify->createPage($payload = [
+            'title' => 'Apple main page',
+        ]);
+
+        Http::assertSent(function (Request $request) use ($payload) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/pages.json', $request->url());
+            $this->assertEquals(['page' => $payload], $request->data());
+            $this->assertEquals('POST', $request->method());
+
+            return true;
+        });
+        $this->assertInstanceOf(PageResource::class, $resource);
+    }
+
+    /** @test **/
+    public function it_counts_pages()
+    {
+        Http::fake([
+            '*' => Http::response(['count' => 42]),
+        ]);
+
+        $count = $this->shopify->getPagesCount();
+
+        Http::assertSent(function (Request $request) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/pages/count.json', $request->url());
+            $this->assertEquals('GET', $request->method());
+
+            return true;
+        });
+        $this->assertEquals(42, $count);
+    }
+
+    /** @test **/
+    public function it_gets_pages()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('pages.all')),
+        ]);
+
+        $resources = $this->shopify->getPages();
+
+        Http::assertSent(function (Request $request) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/pages.json', $request->url());
+            $this->assertEquals('GET', $request->method());
+
+            return true;
+        });
+        $this->assertInstanceOf(Collection::class, $resources);
+        $this->assertInstanceOf(PageResource::class, $resources->first());
+        $this->assertCount(4, $resources);
+    }
+
+    /** @test **/
+    public function it_finds_a_page()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('pages.show')),
+        ]);
+
+        $resource = $this->shopify->getPage($id = 1234);
+
+        Http::assertSent(function (Request $request) use ($id) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/pages/'.$id.'.json', $request->url());
+            $this->assertEquals('GET', $request->method());
+
+            return true;
+        });
+        $this->assertInstanceOf(PageResource::class, $resource);
+    }
+
+    /** @test **/
+    public function it_updates_a_page()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('pages.show')),
+        ]);
+
+        $id = 1234;
+
+        $resource = $this->shopify->updatePage($id, $payload = [
+            'title' => 'IPod Updates',
+        ]);
+
+        Http::assertSent(function (Request $request) use ($id, $payload) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/pages/'.$id.'.json', $request->url());
+            $this->assertEquals(['page' => $payload], $request->data());
+            $this->assertEquals('PUT', $request->method());
+
+            return true;
+        });
+        $this->assertInstanceOf(PageResource::class, $resource);
+    }
+
+    /** @test **/
+    public function it_deletes_a_page()
+    {
+        Http::fake([
+            '*' => Http::response(),
+        ]);
+
+        $id = 1234;
+
+        $this->shopify->deletePage($id);
+
+        Http::assertSent(function (Request $request) use ($id) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/pages/'.$id.'.json', $request->url());
+            $this->assertEquals('DELETE', $request->method());
+
+            return true;
+        });
+    }
+
+    /** @test **/
+    public function it_paginates_pages()
+    {
+        Http::fakeSequence()
+            ->push(['count' => 8], 200)
+            ->push($this->fixture('pages.all'), 200, ['Link' => '<'.$this->shopify->getBaseUrl().'/pages.json?page_info=1234&limit=2>; rel=next'])
+            ->push($this->fixture('pages.all'), 200);
+
+        $count = $this->shopify->getPagesCount();
+        $pages = $this->shopify->paginatePages(['limit' => 2]);
 
         $results = collect();
 
