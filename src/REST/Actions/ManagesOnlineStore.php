@@ -5,6 +5,7 @@ namespace Signifly\Shopify\REST\Actions;
 use Illuminate\Support\Collection;
 use Signifly\Shopify\REST\Cursor;
 use Signifly\Shopify\REST\Resources\ApiResource;
+use Signifly\Shopify\REST\Resources\BlogResource;
 use Signifly\Shopify\Shopify;
 
 /** @mixin Shopify */
@@ -46,5 +47,40 @@ trait ManagesOnlineStore
     public function deleteRedirect($redirectId): void
     {
         $this->deleteResource('redirects', $redirectId);
+    }
+
+    public function createBlog(array $data): BlogResource
+    {
+        return $this->createResource('blogs', $data);
+    }
+
+    public function getBlogsCount(array $params = []): int
+    {
+        return $this->getResourceCount('blogs', $params);
+    }
+
+    public function paginateBlogs(array $params = []): Cursor
+    {
+        return $this->cursor($this->getBlogs($params));
+    }
+
+    public function getBlogs(array $params = []): Collection
+    {
+        return $this->getResources('blogs', $params);
+    }
+
+    public function getBlog($blogId): BlogResource
+    {
+        return $this->getResource('blogs', $blogId);
+    }
+
+    public function updateBlog($blogId, $data): BlogResource
+    {
+        return $this->updateResource('blogs', $blogId, $data);
+    }
+
+    public function deleteBlog($blogId): void
+    {
+        $this->deleteResource('blogs', $blogId);
     }
 }
