@@ -39,4 +39,13 @@ return [
         'secret' => env('SHOPIFY_WEBHOOK_SECRET'),
 
     ],
+
+    'exceptions' => [
+
+        /*
+         * Whether to include the validation errors in the exception message.
+         */
+        'include_validation_errors' => false,
+
+    ],
 ];

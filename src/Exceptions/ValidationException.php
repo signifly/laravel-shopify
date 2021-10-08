@@ -10,6 +10,9 @@ class ValidationException extends \Exception
     {
         $this->errors = $errors;
 
-        parent::__construct('The given data failed to pass validation.');
+        parent::__construct(config('shopify.exceptions.include_validation_errors', false)
+            ? 'Validation failed due to: '.json_encode($this->errors)
+            : 'The given data failed to pass validation.'
+        );
     }
 }
