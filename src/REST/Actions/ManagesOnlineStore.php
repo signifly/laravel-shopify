@@ -178,20 +178,20 @@ trait ManagesOnlineStore
 
     public function getAsset($themeId, $assetKey): AssetResource
     {
-        $response = $this->get('themes/' . $themeId . '/assets.json?asset[key]=' . $assetKey);
+        $response = $this->get('themes/'.$themeId.'/assets.json?asset[key]='.$assetKey);
 
         return new AssetResource($response['asset'], $this);
     }
 
     public function updateAsset($themeId, array $data)
     {
-        $response = $this->put('themes/' . $themeId . '/assets.json',  $data);
+        $response = $this->put('themes/'.$themeId.'/assets.json', $data);
 
         return new AssetResource($response['asset'], $this);
     }
 
     public function deleteAsset($themeId, $assetKey)
     {
-        $this->delete('themes/' . $themeId . '/assets.json?asset[key]=' . $assetKey);
+        $this->delete('themes/'.$themeId.'/assets.json?asset[key]='.$assetKey);
     }
 }
