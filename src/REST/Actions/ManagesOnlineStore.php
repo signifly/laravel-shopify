@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Signifly\Shopify\REST\Cursor;
 use Signifly\Shopify\REST\Resources\ApiResource;
 use Signifly\Shopify\REST\Resources\ArticleResource;
+use Signifly\Shopify\REST\Resources\AssetResource;
 use Signifly\Shopify\REST\Resources\BlogResource;
 use Signifly\Shopify\REST\Resources\PageResource;
 use Signifly\Shopify\Shopify;
@@ -168,5 +169,29 @@ trait ManagesOnlineStore
     public function deleteArticle($articleId): void
     {
         $this->deleteResource('articles', $articleId);
+    }
+
+    public function getAssets($themeId, array $params = []): Collection
+    {
+        return $this->getResources('assets', $params, ['themes', $themeId]);
+    }
+
+    public function getAsset($themeId, $assetKey): AssetResource
+    {
+        $response = $this->get('themes/' . $themeId . '/assets.json?asset[key]=' . $assetKey);
+
+        return new AssetResource($response['asset'], $this);
+    }
+
+    public function updateAsset($themeId, array $data)
+    {
+        $response = $this->put('themes/' . $themeId . '/assets.json',  $data);
+
+        return new AssetResource($response['asset'], $this);
+    }
+
+    public function deleteAsset($themeId, $assetKey)
+    {
+        $this->delete('themes/' . $themeId . '/assets.json?asset[key]=' . $assetKey);
     }
 }

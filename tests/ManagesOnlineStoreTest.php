@@ -9,6 +9,7 @@ use Signifly\Shopify\Factory;
 use Signifly\Shopify\REST\Cursor;
 use Signifly\Shopify\REST\Resources\ApiResource;
 use Signifly\Shopify\REST\Resources\ArticleResource;
+use Signifly\Shopify\REST\Resources\AssetResource;
 use Signifly\Shopify\REST\Resources\BlogResource;
 use Signifly\Shopify\REST\Resources\PageResource;
 use Signifly\Shopify\Shopify;
@@ -628,5 +629,97 @@ class ManagesOnlineStoreTest extends TestCase
         $this->assertEquals($count, $results->count());
 
         Http::assertSequencesAreEmpty();
+    }
+
+    /** @test **/
+    public function it_gets_assets()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('assets.all')),
+        ]);
+
+        $themeId = 'test-theme';
+
+        $resources = $this->shopify->getAssets($themeId);
+
+        Http::assertSent(function (Request $request) use ($themeId) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/themes/' . $themeId . '/assets.json', $request->url());
+            $this->assertEquals('GET', $request->method());
+
+            return true;
+        });
+        
+        $this->assertInstanceOf(Collection::class, $resources);
+        
+        $this->assertInstanceOf(AssetResource::class, $resources->first());
+        
+        $this->assertCount(27, $resources);
+    }
+
+    /** @test **/
+    public function it_finds_an_asset()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('assets.show')),
+        ]);
+
+        $themeId = 'test-theme';
+        $assetKey = 'assets/bg-body.gif';
+
+        $resource = $this->shopify->getAsset($themeId, $assetKey);
+
+        Http::assertSent(function (Request $request) use ($themeId, $assetKey) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/themes/'.$themeId.'/assets.json?asset[key]=' . $assetKey, urldecode($request->url()));
+            $this->assertEquals('GET', $request->method());
+
+            return true;
+        });
+        
+        $this->assertInstanceOf(AssetResource::class, $resource);
+    }
+
+    /** @test **/
+    public function it_updates_an_asset()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('assets.show')),
+        ]);
+
+        $themeId = 'test-theme';
+        $assetKey = 'assets/bg-body.gif';
+
+        $resource = $this->shopify->updateAsset($themeId, $payload = [
+            "key" => $assetKey,
+            "value" => "<img src='backsoon-postit.png'><p>We are busy updating the store for you and will be back within the hour.</p>"
+        ]);
+
+        Http::assertSent(function (Request $request) use ($themeId, $payload) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/themes/'.$themeId.'/assets.json', $request->url());
+            $this->assertEquals($payload, $request->data());
+            $this->assertEquals('PUT', $request->method());
+
+            return true;
+        });
+        $this->assertInstanceOf(AssetResource::class, $resource);
+    }
+
+    /** @test **/
+    public function it_deletes_an_asset()
+    {
+        Http::fake([
+            '*' => Http::response(),
+        ]);
+
+        $themeId = 'theme';
+        $assetKey = 'assets/bg-body.gif';
+
+        $this->shopify->deleteAsset($themeId, $assetKey);
+
+        Http::assertSent(function (Request $request) use ($themeId, $assetKey) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/themes/'.$themeId.'/assets.json?asset[key]=' . $assetKey, urldecode($request->url()));
+            $this->assertEquals('DELETE', $request->method());
+
+            return true;
+        });
     }
 }
