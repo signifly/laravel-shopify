@@ -58,5 +58,4 @@ trait ManagesShopifyPayments
     {
         return $this->getResourceCount('transactions', $params, ['shopify_payments', 'orders', $orderId]);
     }
-
 }
