@@ -9,6 +9,7 @@ use Signifly\Shopify\Factory;
 use Signifly\Shopify\REST\Resources\BalanceResource;
 use Signifly\Shopify\REST\Resources\DisputeResource;
 use Signifly\Shopify\REST\Resources\MetafieldResource;
+use Signifly\Shopify\REST\Resources\PayoutResource;
 use Signifly\Shopify\Shopify;
 
 class ManagesShopifyPaymentsTest extends TestCase
@@ -85,6 +86,48 @@ class ManagesShopifyPaymentsTest extends TestCase
         });
         
         $this->assertInstanceOf(DisputeResource::class, $resource);
+    }
+
+    /** @test */
+    public function it_gets_a_list_of_payouts()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('payouts.all')),
+        ]);
+
+        $resources = $this->shopify->getPayouts();
+
+        Http::assertSent(function (Request $request) {
+            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/payouts.json', $request->url());
+            $this->assertEquals('GET', $request->method());
+            return true;
+        });
+        
+        $this->assertInstanceOf(Collection::class, $resources);
+        
+        $this->assertInstanceOf(PayoutResource::class, $resources->first());
+        
+        $this->assertCount(8, $resources);
+    }
+
+    /** @test */
+    public function it_finds_a_payout()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('payouts.show')),
+        ]);
+
+        $payoutId = '1234';
+
+        $resource = $this->shopify->getPayout($payoutId);
+
+        Http::assertSent(function (Request $request) use ($payoutId) {
+            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/payouts/' . $payoutId . '.json', $request->url());
+            $this->assertEquals('GET', $request->method());
+            return true;
+        });
+        
+        $this->assertInstanceOf(PayoutResource::class, $resource);
     }
 
 }
