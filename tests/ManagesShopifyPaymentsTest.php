@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Http;
 use Signifly\Shopify\Factory;
 use Signifly\Shopify\REST\Resources\BalanceResource;
 use Signifly\Shopify\REST\Resources\DisputeResource;
-use Signifly\Shopify\REST\Resources\MetafieldResource;
 use Signifly\Shopify\REST\Resources\PayoutResource;
 use Signifly\Shopify\REST\Resources\TransactionResource;
 use Signifly\Shopify\Shopify;
@@ -36,12 +35,12 @@ class ManagesShopifyPaymentsTest extends TestCase
         $resource = $this->shopify->getBalance([]);
 
         Http::assertSent(function (Request $request) use ($url) {
-            $this->assertEquals($this->shopify->getBaseUrl() . $url, $request->url());
+            $this->assertEquals($this->shopify->getBaseUrl().$url, $request->url());
             $this->assertEquals('GET', $request->method());
 
             return true;
         });
-        
+
         $this->assertInstanceOf(BalanceResource::class, $resource);
     }
 
@@ -57,15 +56,16 @@ class ManagesShopifyPaymentsTest extends TestCase
         $resources = $this->shopify->getDisputes();
 
         Http::assertSent(function (Request $request) use ($url) {
-            $this->assertEquals($this->shopify->getBaseUrl() . $url, $request->url());
+            $this->assertEquals($this->shopify->getBaseUrl().$url, $request->url());
             $this->assertEquals('GET', $request->method());
+
             return true;
         });
-        
+
         $this->assertInstanceOf(Collection::class, $resources);
-        
+
         $this->assertInstanceOf(DisputeResource::class, $resources->first());
-        
+
         $this->assertCount(7, $resources);
     }
 
@@ -81,11 +81,12 @@ class ManagesShopifyPaymentsTest extends TestCase
         $resource = $this->shopify->getDispute($disputeId);
 
         Http::assertSent(function (Request $request) use ($disputeId) {
-            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/disputes/' . $disputeId . '.json', $request->url());
+            $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/disputes/'.$disputeId.'.json', $request->url());
             $this->assertEquals('GET', $request->method());
+
             return true;
         });
-        
+
         $this->assertInstanceOf(DisputeResource::class, $resource);
     }
 
@@ -99,15 +100,16 @@ class ManagesShopifyPaymentsTest extends TestCase
         $resources = $this->shopify->getPayouts();
 
         Http::assertSent(function (Request $request) {
-            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/payouts.json', $request->url());
+            $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/payouts.json', $request->url());
             $this->assertEquals('GET', $request->method());
+
             return true;
         });
-        
+
         $this->assertInstanceOf(Collection::class, $resources);
-        
+
         $this->assertInstanceOf(PayoutResource::class, $resources->first());
-        
+
         $this->assertCount(8, $resources);
     }
 
@@ -123,11 +125,12 @@ class ManagesShopifyPaymentsTest extends TestCase
         $resource = $this->shopify->getPayout($payoutId);
 
         Http::assertSent(function (Request $request) use ($payoutId) {
-            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/payouts/' . $payoutId . '.json', $request->url());
+            $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/payouts/'.$payoutId.'.json', $request->url());
             $this->assertEquals('GET', $request->method());
+
             return true;
         });
-        
+
         $this->assertInstanceOf(PayoutResource::class, $resource);
     }
 
@@ -221,5 +224,4 @@ class ManagesShopifyPaymentsTest extends TestCase
         
         $this->assertEquals(42, $count);
     }
-
 }

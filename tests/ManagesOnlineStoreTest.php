@@ -643,16 +643,16 @@ class ManagesOnlineStoreTest extends TestCase
         $resources = $this->shopify->getAssets($themeId);
 
         Http::assertSent(function (Request $request) use ($themeId) {
-            $this->assertEquals($this->shopify->getBaseUrl().'/themes/' . $themeId . '/assets.json', $request->url());
+            $this->assertEquals($this->shopify->getBaseUrl().'/themes/'.$themeId.'/assets.json', $request->url());
             $this->assertEquals('GET', $request->method());
 
             return true;
         });
-        
+
         $this->assertInstanceOf(Collection::class, $resources);
-        
+
         $this->assertInstanceOf(AssetResource::class, $resources->first());
-        
+
         $this->assertCount(27, $resources);
     }
 
@@ -669,12 +669,12 @@ class ManagesOnlineStoreTest extends TestCase
         $resource = $this->shopify->getAsset($themeId, $assetKey);
 
         Http::assertSent(function (Request $request) use ($themeId, $assetKey) {
-            $this->assertEquals($this->shopify->getBaseUrl().'/themes/'.$themeId.'/assets.json?asset[key]=' . $assetKey, urldecode($request->url()));
+            $this->assertEquals($this->shopify->getBaseUrl().'/themes/'.$themeId.'/assets.json?asset[key]='.$assetKey, urldecode($request->url()));
             $this->assertEquals('GET', $request->method());
 
             return true;
         });
-        
+
         $this->assertInstanceOf(AssetResource::class, $resource);
     }
 
@@ -689,8 +689,8 @@ class ManagesOnlineStoreTest extends TestCase
         $assetKey = 'assets/bg-body.gif';
 
         $resource = $this->shopify->updateAsset($themeId, $payload = [
-            "key" => $assetKey,
-            "value" => "<img src='backsoon-postit.png'><p>We are busy updating the store for you and will be back within the hour.</p>"
+            'key' => $assetKey,
+            'value' => "<img src='backsoon-postit.png'><p>We are busy updating the store for you and will be back within the hour.</p>",
         ]);
 
         Http::assertSent(function (Request $request) use ($themeId, $payload) {
@@ -716,7 +716,7 @@ class ManagesOnlineStoreTest extends TestCase
         $this->shopify->deleteAsset($themeId, $assetKey);
 
         Http::assertSent(function (Request $request) use ($themeId, $assetKey) {
-            $this->assertEquals($this->shopify->getBaseUrl().'/themes/'.$themeId.'/assets.json?asset[key]=' . $assetKey, urldecode($request->url()));
+            $this->assertEquals($this->shopify->getBaseUrl().'/themes/'.$themeId.'/assets.json?asset[key]='.$assetKey, urldecode($request->url()));
             $this->assertEquals('DELETE', $request->method());
 
             return true;
