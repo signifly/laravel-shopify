@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 use Signifly\Shopify\REST\Resources\BalanceResource;
 use Signifly\Shopify\REST\Resources\DisputeResource;
 use Signifly\Shopify\REST\Resources\PayoutResource;
-use Signifly\Shopify\REST\Resources\TransactionResource;
 use Signifly\Shopify\Shopify;
 
 /** @mixin Shopify */
