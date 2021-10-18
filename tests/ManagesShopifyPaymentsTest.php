@@ -156,28 +156,6 @@ class ManagesShopifyPaymentsTest extends TestCase
         
     }
 
-    public function it_creates_a_blog()
-    {
-        Http::fake([
-            '*' => Http::response($this->fixture('blogs.create')),
-        ]);
-
-        $resource = $this->shopify->createBlog($payload = [
-            'title' => 'Apple main blog',
-        ]);
-
-        Http::assertSent(function (Request $request) use ($payload) {
-            $this->assertEquals($this->shopify->getBaseUrl().'/blogs.json', $request->url());
-            $this->assertEquals(['blog' => $payload], $request->data());
-            $this->assertEquals('POST', $request->method());
-
-            return true;
-        });
-        $this->assertInstanceOf(BlogResource::class, $resource);
-    }
-
-
-
     /** @test */
     public function it_gets_a_list_of_transactions()
     {
