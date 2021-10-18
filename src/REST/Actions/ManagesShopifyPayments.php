@@ -37,5 +37,4 @@ trait ManagesShopifyPayments
     {
         return $this->getResource('payouts', $payoutId, ['shopify_payments']);
     }
-
 }
