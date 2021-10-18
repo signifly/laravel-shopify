@@ -145,18 +145,18 @@ class ManagesShopifyPaymentsTest extends TestCase
 
         $resource = $this->shopify->createTransaction($orderId, $payload = [
             'kind' => 'capture',
-            'authorization' => 'authorization-key'
+            'authorization' => 'authorization-key',
         ]);
 
         Http::assertSent(function (Request $request) use ($orderId, $payload) {
-            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/orders/'.$orderId.'/transactions.json', $request->url());
+            $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/orders/'.$orderId.'/transactions.json', $request->url());
             $this->assertEquals(['transaction' => $payload], $request->data());
             $this->assertEquals('POST', $request->method());
+
             return true;
         });
-        
+
         $this->assertInstanceOf(TransactionResource::class, $resource);
-        
     }
 
     /** @test */
@@ -171,15 +171,16 @@ class ManagesShopifyPaymentsTest extends TestCase
         $resources = $this->shopify->getTransactions($orderId);
 
         Http::assertSent(function (Request $request) use ($orderId) {
-            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/orders/'.$orderId.'/transactions.json', $request->url());
+            $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/orders/'.$orderId.'/transactions.json', $request->url());
             $this->assertEquals('GET', $request->method());
+
             return true;
         });
-        
+
         $this->assertInstanceOf(Collection::class, $resources);
-        
+
         $this->assertInstanceOf(TransactionResource::class, $resources->first());
-        
+
         $this->assertCount(3, $resources);
     }
 
@@ -196,11 +197,12 @@ class ManagesShopifyPaymentsTest extends TestCase
         $resource = $this->shopify->getTransaction($transactionId, $orderId);
 
         Http::assertSent(function (Request $request) use ($transactionId, $orderId) {
-            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/orders/' . $orderId . '/transactions/'. $transactionId .'.json', $request->url());
+            $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/orders/'.$orderId.'/transactions/'.$transactionId.'.json', $request->url());
             $this->assertEquals('GET', $request->method());
+
             return true;
         });
-        
+
         $this->assertInstanceOf(TransactionResource::class, $resource);
     }
 
@@ -215,13 +217,13 @@ class ManagesShopifyPaymentsTest extends TestCase
 
         $count = $this->shopify->getTransactionsCount($orderId);
 
-
         Http::assertSent(function (Request $request) use ($orderId) {
-            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/orders/' . $orderId . '/transactions/count.json', $request->url());
+            $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/orders/'.$orderId.'/transactions/count.json', $request->url());
             $this->assertEquals('GET', $request->method());
+
             return true;
         });
-        
+
         $this->assertEquals(42, $count);
     }
 }
