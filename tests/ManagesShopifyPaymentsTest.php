@@ -9,6 +9,8 @@ use Signifly\Shopify\Factory;
 use Signifly\Shopify\REST\Resources\BalanceResource;
 use Signifly\Shopify\REST\Resources\DisputeResource;
 use Signifly\Shopify\REST\Resources\MetafieldResource;
+use Signifly\Shopify\REST\Resources\PayoutResource;
+use Signifly\Shopify\REST\Resources\TransactionResource;
 use Signifly\Shopify\Shopify;
 
 class ManagesShopifyPaymentsTest extends TestCase
@@ -85,6 +87,161 @@ class ManagesShopifyPaymentsTest extends TestCase
         });
         
         $this->assertInstanceOf(DisputeResource::class, $resource);
+    }
+
+    /** @test */
+    public function it_gets_a_list_of_payouts()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('payouts.all')),
+        ]);
+
+        $resources = $this->shopify->getPayouts();
+
+        Http::assertSent(function (Request $request) {
+            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/payouts.json', $request->url());
+            $this->assertEquals('GET', $request->method());
+            return true;
+        });
+        
+        $this->assertInstanceOf(Collection::class, $resources);
+        
+        $this->assertInstanceOf(PayoutResource::class, $resources->first());
+        
+        $this->assertCount(8, $resources);
+    }
+
+    /** @test */
+    public function it_finds_a_payout()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('payouts.show')),
+        ]);
+
+        $payoutId = '1234';
+
+        $resource = $this->shopify->getPayout($payoutId);
+
+        Http::assertSent(function (Request $request) use ($payoutId) {
+            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/payouts/' . $payoutId . '.json', $request->url());
+            $this->assertEquals('GET', $request->method());
+            return true;
+        });
+        
+        $this->assertInstanceOf(PayoutResource::class, $resource);
+    }
+
+    /** @test */
+    public function it_creates_a_transaction()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('transactions.create')),
+        ]);
+
+        $orderId = '1234';
+
+        $resource = $this->shopify->createTransaction($orderId, $payload = [
+            'kind' => 'capture',
+            'authorization' => 'authorization-key'
+        ]);
+
+        Http::assertSent(function (Request $request) use ($orderId, $payload) {
+            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/orders/'.$orderId.'/transactions.json', $request->url());
+            $this->assertEquals(['transaction' => $payload], $request->data());
+            $this->assertEquals('POST', $request->method());
+            return true;
+        });
+        
+        $this->assertInstanceOf(TransactionResource::class, $resource);
+        
+    }
+
+    public function it_creates_a_blog()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('blogs.create')),
+        ]);
+
+        $resource = $this->shopify->createBlog($payload = [
+            'title' => 'Apple main blog',
+        ]);
+
+        Http::assertSent(function (Request $request) use ($payload) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/blogs.json', $request->url());
+            $this->assertEquals(['blog' => $payload], $request->data());
+            $this->assertEquals('POST', $request->method());
+
+            return true;
+        });
+        $this->assertInstanceOf(BlogResource::class, $resource);
+    }
+
+
+
+    /** @test */
+    public function it_gets_a_list_of_transactions()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('transactions.all')),
+        ]);
+
+        $orderId = '1234';
+
+        $resources = $this->shopify->getTransactions($orderId);
+
+        Http::assertSent(function (Request $request) use ($orderId) {
+            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/orders/'.$orderId.'/transactions.json', $request->url());
+            $this->assertEquals('GET', $request->method());
+            return true;
+        });
+        
+        $this->assertInstanceOf(Collection::class, $resources);
+        
+        $this->assertInstanceOf(TransactionResource::class, $resources->first());
+        
+        $this->assertCount(3, $resources);
+    }
+
+    /** @test */
+    public function it_finds_a_transaction()
+    {
+        Http::fake([
+            '*' => Http::response($this->fixture('transactions.show')),
+        ]);
+
+        $transactionId = '4321';
+        $orderId = '1234';
+
+        $resource = $this->shopify->getTransaction($transactionId, $orderId);
+
+        Http::assertSent(function (Request $request) use ($transactionId, $orderId) {
+            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/orders/' . $orderId . '/transactions/'. $transactionId .'.json', $request->url());
+            $this->assertEquals('GET', $request->method());
+            return true;
+        });
+        
+        $this->assertInstanceOf(TransactionResource::class, $resource);
+    }
+
+    /** @test */
+    public function it_gets_a_transaction_count()
+    {
+        Http::fake([
+            '*' => Http::response(['count' => 42]),
+        ]);
+
+        $orderId = '1234';
+
+        $count = $this->shopify->getTransactionsCount($orderId);
+
+
+        Http::assertSent(function (Request $request) use ($orderId) {
+            $this->assertEquals($this->shopify->getBaseUrl() . '/shopify_payments/orders/' . $orderId . '/transactions/count.json', $request->url());
+            $this->assertEquals('GET', $request->method());
+            return true;
+        });
+        
+        $this->assertEquals(42, $count);
     }
 
 }
