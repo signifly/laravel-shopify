@@ -21,6 +21,7 @@ use Signifly\Shopify\REST\Actions\ManagesOrders;
 use Signifly\Shopify\REST\Actions\ManagesPlus;
 use Signifly\Shopify\REST\Actions\ManagesProducts;
 use Signifly\Shopify\REST\Actions\ManagesSalesChannel;
+use Signifly\Shopify\REST\Actions\ManagesShopifyPayments;
 use Signifly\Shopify\REST\Actions\ManagesStoreProperties;
 use Signifly\Shopify\REST\Cursor;
 use Signifly\Shopify\Support\MakesHttpRequests;
@@ -45,6 +46,7 @@ class Shopify
     use ManagesPlus;
     use ManagesProducts;
     use ManagesSalesChannel;
+    use ManagesShopifyPayments;
     use ManagesStoreProperties;
     use TransformsResources;
 
