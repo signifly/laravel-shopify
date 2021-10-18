@@ -32,7 +32,7 @@ class ManagesShopifyPaymentsTest extends TestCase
 
         $url = '/shopify_payments/balance';
 
-        $resource = $this->shopify->getBalance([]);
+        $resource = $this->shopify->getShopifyPaymentsBalance([]);
 
         Http::assertSent(function (Request $request) use ($url) {
             $this->assertEquals($this->shopify->getBaseUrl().$url, $request->url());
@@ -53,7 +53,7 @@ class ManagesShopifyPaymentsTest extends TestCase
 
         $url = '/shopify_payments/disputes.json';
 
-        $resources = $this->shopify->getDisputes();
+        $resources = $this->shopify->getShopifyPaymentsDisputes();
 
         Http::assertSent(function (Request $request) use ($url) {
             $this->assertEquals($this->shopify->getBaseUrl().$url, $request->url());
@@ -78,7 +78,7 @@ class ManagesShopifyPaymentsTest extends TestCase
 
         $disputeId = '1234';
 
-        $resource = $this->shopify->getDispute($disputeId);
+        $resource = $this->shopify->getShopifyPaymentsDispute($disputeId);
 
         Http::assertSent(function (Request $request) use ($disputeId) {
             $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/disputes/'.$disputeId.'.json', $request->url());
@@ -97,7 +97,7 @@ class ManagesShopifyPaymentsTest extends TestCase
             '*' => Http::response($this->fixture('payouts.all')),
         ]);
 
-        $resources = $this->shopify->getPayouts();
+        $resources = $this->shopify->getShopifyPaymentsPayouts();
 
         Http::assertSent(function (Request $request) {
             $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/payouts.json', $request->url());
@@ -122,7 +122,7 @@ class ManagesShopifyPaymentsTest extends TestCase
 
         $payoutId = '1234';
 
-        $resource = $this->shopify->getPayout($payoutId);
+        $resource = $this->shopify->getShopifyPaymentsPayout($payoutId);
 
         Http::assertSent(function (Request $request) use ($payoutId) {
             $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/payouts/'.$payoutId.'.json', $request->url());
@@ -135,43 +135,16 @@ class ManagesShopifyPaymentsTest extends TestCase
     }
 
     /** @test */
-    public function it_creates_a_transaction()
-    {
-        Http::fake([
-            '*' => Http::response($this->fixture('transactions.create')),
-        ]);
-
-        $orderId = '1234';
-
-        $resource = $this->shopify->createTransaction($orderId, $payload = [
-            'kind' => 'capture',
-            'authorization' => 'authorization-key',
-        ]);
-
-        Http::assertSent(function (Request $request) use ($orderId, $payload) {
-            $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/orders/'.$orderId.'/transactions.json', $request->url());
-            $this->assertEquals(['transaction' => $payload], $request->data());
-            $this->assertEquals('POST', $request->method());
-
-            return true;
-        });
-
-        $this->assertInstanceOf(TransactionResource::class, $resource);
-    }
-
-    /** @test */
     public function it_gets_a_list_of_transactions()
     {
         Http::fake([
             '*' => Http::response($this->fixture('transactions.all')),
         ]);
 
-        $orderId = '1234';
+        $resources = $this->shopify->getShopifyPaymentsBalanceTransactions();
 
-        $resources = $this->shopify->getTransactions($orderId);
-
-        Http::assertSent(function (Request $request) use ($orderId) {
-            $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/orders/'.$orderId.'/transactions.json', $request->url());
+        Http::assertSent(function (Request $request) {
+            $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/balance/transactions.json', $request->url());
             $this->assertEquals('GET', $request->method());
 
             return true;
@@ -182,48 +155,5 @@ class ManagesShopifyPaymentsTest extends TestCase
         $this->assertInstanceOf(TransactionResource::class, $resources->first());
 
         $this->assertCount(3, $resources);
-    }
-
-    /** @test */
-    public function it_finds_a_transaction()
-    {
-        Http::fake([
-            '*' => Http::response($this->fixture('transactions.show')),
-        ]);
-
-        $transactionId = '4321';
-        $orderId = '1234';
-
-        $resource = $this->shopify->getTransaction($transactionId, $orderId);
-
-        Http::assertSent(function (Request $request) use ($transactionId, $orderId) {
-            $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/orders/'.$orderId.'/transactions/'.$transactionId.'.json', $request->url());
-            $this->assertEquals('GET', $request->method());
-
-            return true;
-        });
-
-        $this->assertInstanceOf(TransactionResource::class, $resource);
-    }
-
-    /** @test */
-    public function it_gets_a_transaction_count()
-    {
-        Http::fake([
-            '*' => Http::response(['count' => 42]),
-        ]);
-
-        $orderId = '1234';
-
-        $count = $this->shopify->getTransactionsCount($orderId);
-
-        Http::assertSent(function (Request $request) use ($orderId) {
-            $this->assertEquals($this->shopify->getBaseUrl().'/shopify_payments/orders/'.$orderId.'/transactions/count.json', $request->url());
-            $this->assertEquals('GET', $request->method());
-
-            return true;
-        });
-
-        $this->assertEquals(42, $count);
     }
 }

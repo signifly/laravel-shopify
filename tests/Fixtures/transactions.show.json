@@ -1,65 +1,37 @@
 {
     "transaction": {
         "id": 389404469,
-
         "order_id": 450789469,
-
         "kind": "authorization",
-
         "gateway": "bogus",
-
         "status": "success",
-
         "message": null,
-
         "created_at": "2005-08-01T11:57:11-04:00",
-
         "test": false,
-
         "authorization": "authorization-key",
-
         "location_id": null,
-
         "user_id": null,
-
         "parent_id": null,
-
         "processed_at": "2005-08-01T11:57:11-04:00",
-
         "device_id": null,
-
         "error_code": null,
-
         "source_name": "web",
-
         "payment_details": {
             "credit_card_bin": null,
-
             "avs_result_code": null,
-
             "cvv_result_code": null,
-
             "credit_card_number": "•••• •••• •••• 4242",
-
             "credit_card_company": "Visa"
         },
-
         "receipt": {
             "testcase": true,
-
             "authorization": "123456"
         },
-
         "currency_exchange_adjustment": null,
-
         "amount": "598.94",
-
         "currency": "USD",
-
         "authorization_expires_at": null,
-
         "extended_authorization_attributes": {},
-
         "admin_graphql_api_id": "gid://shopify/OrderTransaction/389404469"
     }
 }
