@@ -52,7 +52,7 @@ trait ManagesOrders
 
     public function closeOrder($orderId): OrderResource
     {
-        $response = $this->get("orders/{$orderId}/close.json");
+        $response = $this->post("orders/{$orderId}/close.json");
 
         return new OrderResource($response['order'], $this);
     }
@@ -66,7 +66,7 @@ trait ManagesOrders
 
     public function cancelOrder($orderId): OrderResource
     {
-        $response = $this->get("orders/{$orderId}/cancel.json");
+        $response = $this->post("orders/{$orderId}/cancel.json");
 
         return new OrderResource($response['order'], $this);
     }
