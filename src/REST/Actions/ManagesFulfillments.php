@@ -222,7 +222,7 @@ trait ManagesFulfillments
             'cancellation_request' => $data,
         ]);
 
-        return new ApiResource($response['original_fulfillment_order'], $this);
+        return new ApiResource($response['fulfillment_order'], $this);
     }
 
     public function acceptFulfillmentOrderCancellationRequest($fulfillmentOrderId, array $data = []): ApiResource
