@@ -222,7 +222,7 @@ trait ManagesFulfillments
             'cancellation_request' => $data,
         ]);
 
-        return new ApiResource($response['original_fulfillment_order'], $this);
+        return new ApiResource($response['fulfillment_order'], $this);
     }
 
     public function acceptFulfillmentOrderCancellationRequest($fulfillmentOrderId, array $data = []): ApiResource
@@ -247,7 +247,7 @@ trait ManagesFulfillments
     {
         $response = $this->get('assigned_fulfillment_orders.json', [
             'assignment_status' => $assignmentStatus,
-            'location_ids' => $locationIds,
+            'location_ids%5B%5D' => $locationIds,
         ]);
 
         return $this->transformCollection($response['fulfillment_orders'], ApiResource::class);
