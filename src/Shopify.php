@@ -75,7 +75,7 @@ class Shopify
 
     public function graphQl(): PendingRequest
     {
-        return Http::baseUrl($this->getBaseUrl().'/graphql.json')
+        return Http::baseUrl("https://{$this->domain}/admin/api/graphql.json")
             ->withHeaders(['X-Shopify-Access-Token' => $this->password]);
     }
 
