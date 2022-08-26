@@ -73,6 +73,7 @@ class ApiResource implements ArrayAccess, Arrayable
      * @param  mixed  $offset
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return array_key_exists($offset, $this->attributes);
@@ -84,6 +85,7 @@ class ApiResource implements ArrayAccess, Arrayable
      * @param  mixed  $offset
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->getAttribute($offset);
@@ -96,6 +98,7 @@ class ApiResource implements ArrayAccess, Arrayable
      * @param  mixed  $value
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         return $this->setAttribute($offset, $value);
@@ -107,6 +110,7 @@ class ApiResource implements ArrayAccess, Arrayable
      * @param  mixed  $offset
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->attributes[$offset]);
