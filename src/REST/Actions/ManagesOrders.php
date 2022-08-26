@@ -153,12 +153,12 @@ trait ManagesOrders
         return $this->getResources('draft_orders', $params);
     }
 
-    public function getDraftOrder($orderId): OrderResource
+    public function getDraftOrder($orderId): DraftOrderResource
     {
         return $this->getResource('draft_orders', $orderId);
     }
 
-    public function updateDraftOrder($orderId, $data): OrderResource
+    public function updateDraftOrder($orderId, $data): DraftOrderResource
     {
         return $this->updateResource('draft_orders', $orderId, $data);
     }
