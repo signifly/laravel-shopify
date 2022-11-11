@@ -20,8 +20,7 @@
         </whitelist>
     </filter>
     <php>
-        <env name="SHOPIFY_API_KEY" value="shopify.api.key.goes.here" />
-        <env name="SHOPIFY_PASSWORD" value="shopify.password.goes.here" />
+        <env name="SHOPIFY_ACCESS_TOKEN" value="shopify.access_token.goes.here" />
         <env name="SHOPIFY_DOMAIN" value="shopify-domain.goes.here" />
         <env name="SHOPIFY_API_VERSION" value="2019-07" />
         <env name="SHOPIFY_WEBHOOK_SECRET" value="secret" />

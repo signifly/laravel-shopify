@@ -50,8 +50,7 @@ class Shopify
     use ManagesStoreProperties;
     use TransformsResources;
 
-    protected string $apiKey;
-    protected string $password;
+    protected string $accessToken;
     protected string $domain;
     protected string $apiVersion;
 

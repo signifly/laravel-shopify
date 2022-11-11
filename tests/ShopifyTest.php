@@ -41,7 +41,7 @@ class ShopifyTest extends TestCase
 
         $clientA = $shopify->getHttpClient();
 
-        $shopify = $shopify->withCredentials('1234', '1234', '1234', '2021-01');
+        $shopify = $shopify->withCredentials('1234', '1234', '2021-01');
 
         $clientB = $shopify->getHttpClient();
 
