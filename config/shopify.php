@@ -5,14 +5,9 @@ return [
     'credentials' => [
 
         /*
-         * The API key from private app credentials.
+         * The API access token from the private app.
          */
-        'api_key' => env('SHOPIFY_API_KEY', ''),
-
-        /*
-         * The password from private app credentials.
-         */
-        'password' => env('SHOPIFY_PASSWORD', ''),
+        'api_access_token' => env('SHOPIFY_API_ACCESS_TOKEN', ''),
 
         /*
          * The shopify domain for your shop.
