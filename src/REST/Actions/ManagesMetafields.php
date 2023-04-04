@@ -39,6 +39,21 @@ trait ManagesMetafields
         $this->deleteResource('metafields', $metafieldId);
     }
 
+    public function createCustomerMetafield($customerId, array $data): MetafieldResource
+    {
+        return $this->createResource('metafields', $data, ['customers', $customerId]);
+    }
+
+    public function getCustomerMetafieldsCount($customerId, array $params = []): int
+    {
+        return $this->getResourceCount('metafields', $params, ['customers', $customerId]);
+    }
+
+    public function getCustomerMetafields($customerId, array $params = []): Collection
+    {
+        return $this->getResources('metafields', $params, ['customers', $customerId]);
+    }
+
     public function createProductMetafield($productId, array $data): MetafieldResource
     {
         return $this->createResource('metafields', $data, ['products', $productId]);

@@ -55,6 +55,7 @@ class ManagesMetafieldsTest extends TestCase
 
         return [
             'Shop' => ['createMetafield', '/metafields.json'],
+            'Customer' => ['createCustomerMetafield', "/customers/{$id}/metafields.json", [$id]],
             'Product' => ['createProductMetafield', "/products/{$id}/metafields.json", [$id]],
             'Variant' => ['createVariantMetafield', "/variants/{$id}/metafields.json", [$id]],
             'Draft Order' => ['createDraftOrderMetafield', "/draft_orders/{$id}/metafields.json", [$id]],
@@ -87,6 +88,7 @@ class ManagesMetafieldsTest extends TestCase
 
         return [
             'Shop' => ['getMetafieldsCount', '/metafields/count.json'],
+            'Customer' => ['getCustomerMetafieldsCount', "/customers/{$id}/metafields/count.json", [$id]],
             'Product' => ['getProductMetafieldsCount', "/products/{$id}/metafields/count.json", [$id]],
             'Variant' => ['getVariantMetafieldsCount', "/variants/{$id}/metafields/count.json", [$id]],
             'Draft Order' => ['getDraftOrderMetafieldsCount', "/draft_orders/{$id}/metafields/count.json", [$id]],
@@ -121,6 +123,7 @@ class ManagesMetafieldsTest extends TestCase
 
         return [
             'Shop' => ['getMetafields', '/metafields.json'],
+            'Customer' => ['getCustomerMetafields', "/customers/{$id}/metafields.json", [$id]],
             'Product' => ['getProductMetafields', "/products/{$id}/metafields.json", [$id]],
             'Variant' => ['getVariantMetafields', "/variants/{$id}/metafields.json", [$id]],
             'Draft Order' => ['getDraftOrderMetafields', "/draft_orders/{$id}/metafields.json", [$id]],
