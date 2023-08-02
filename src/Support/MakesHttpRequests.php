@@ -70,9 +70,10 @@ trait MakesHttpRequests
 
         $response = $this->post(implode('/', [...$uriPrefix, "{$resource}.json"]), [$key => $data]);
 
-        if(!empty($responseKey)){
+        if (! empty($responseKey)) {
             $key = $responseKey;
         }
+
         return new $resourceClass($response[$key], $this);
     }
 
