@@ -82,7 +82,7 @@ trait ManagesCustomers
 
     public function createCustomerAddress($customerId, array $data): ApiResource
     {
-        return $this->createResource('addresses', $data, ['customers', $customerId]);
+        return $this->createResource('addresses', $data, ['customers', $customerId], 'customer_address');
     }
 
     public function getCustomerAddresses($customerId, array $params = []): Collection

@@ -63,13 +63,16 @@ trait MakesHttpRequests
         return class_exists($resourceClass) ? $resourceClass : ApiResource::class;
     }
 
-    protected function createResource(string $resource, array $data, array $uriPrefix = []): ApiResource
+    protected function createResource(string $resource, array $data, array $uriPrefix = [], string $responseKey = null): ApiResource
     {
         $key = Str::singular($resource);
         $resourceClass = $this->resourceClassFor($resource);
 
         $response = $this->post(implode('/', [...$uriPrefix, "{$resource}.json"]), [$key => $data]);
 
+        if(!empty($responseKey)){
+            $key = $responseKey;
+        }
         return new $resourceClass($response[$key], $this);
     }
 
