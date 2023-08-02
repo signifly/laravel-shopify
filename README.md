@@ -25,7 +25,7 @@ The package will automatically register itself.
 
 ## Documentation
 
-You can find the full documentation [here](https://www.notion.so/signifly/Laravel-Shopify-424709fa6dd84defb0879ab8a1cb29fa).
+You can find the full documentation here: [https://www.notion.so/signifly/Laravel-Shopify-424709fa6dd84defb0879ab8a1cb29fa](https://signifly.notion.site/Laravel-Shopify-424709fa6dd84defb0879ab8a1cb29fa?pvs=4).
 
 
 ## Testing
