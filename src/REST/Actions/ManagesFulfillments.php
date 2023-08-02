@@ -280,12 +280,11 @@ trait ManagesFulfillments
 
     public function setFulfillmentOrdersDeadline(array $fulfillmentOrderIds, $fulfillmentDeadline): bool
     {
-        $response = $this->post("fulfillment_orders/set_fulfillment_orders_deadline.json", [
+        $response = $this->post('fulfillment_orders/set_fulfillment_orders_deadline.json', [
             'fulfillment_order_ids' => $fulfillmentOrderIds,
             'fulfillment_deadline' => $fulfillmentDeadline,
         ]);
 
         return true;
     }
-
 }
