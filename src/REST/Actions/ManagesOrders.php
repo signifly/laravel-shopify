@@ -59,7 +59,7 @@ trait ManagesOrders
 
     public function openOrder($orderId): OrderResource
     {
-        $response = $this->get("orders/{$orderId}/open.json");
+        $response = $this->post("orders/{$orderId}/open.json");
 
         return new OrderResource($response['order'], $this);
     }
