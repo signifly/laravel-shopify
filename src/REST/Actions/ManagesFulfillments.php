@@ -24,11 +24,6 @@ trait ManagesFulfillments
         return $this->getResource('fulfillments', $fulfillmentId, ['orders', $orderId]);
     }
 
-    public function createOrderFulfillment($orderId, array $data): ApiResource
-    {
-        return $this->createResource('fulfillments', $data, ['orders', $orderId]);
-    }
-
     public function createFulfillment(array $data): ApiResource
     {
         return $this->createResource('fulfillments', $data);
@@ -252,4 +247,45 @@ trait ManagesFulfillments
 
         return $this->transformCollection($response['fulfillment_orders'], ApiResource::class);
     }
+
+    public function holdFulfillmentOrder($fulfillmentOrderId, array $data): ApiResource
+    {
+        $response = $this->post("fulfillment_orders/{$fulfillmentOrderId}/hold.json", [
+            'fulfillment_hold' => $data,
+        ]);
+
+        return new ApiResource($response['fulfillment_order'], $this);
+    }
+
+    public function openFulfillmentOrder($fulfillmentOrderId): ApiResource
+    {
+        $response = $this->post("fulfillment_orders/{$fulfillmentOrderId}/close.json");
+
+        return new ApiResource($response['fulfillment_order'], $this);
+    }
+
+    public function releaseHoldFulfillmentOrder($fulfillmentOrderId): ApiResource
+    {
+        $response = $this->post("fulfillment_orders/{$fulfillmentOrderId}/release_hold.json");
+
+        return new ApiResource($response['fulfillment_order'], $this);
+    }
+
+    public function rescheduleFulfillmentOrder($fulfillmentOrderId, $data): ApiResource
+    {
+        $response = $this->post("fulfillment_orders/{$fulfillmentOrderId}/reschedule.json", $data);
+
+        return new ApiResource($response['fulfillment_order'], $this);
+    }
+
+    public function setFulfillmentOrdersDeadline(array $fulfillmentOrderIds, $fulfillmentDeadline): bool
+    {
+        $response = $this->post("fulfillment_orders/set_fulfillment_orders_deadline.json", [
+            'fulfillment_order_ids' => $fulfillmentOrderIds,
+            'fulfillment_deadline' => $fulfillmentDeadline,
+        ]);
+
+        return true;
+    }
+
 }
