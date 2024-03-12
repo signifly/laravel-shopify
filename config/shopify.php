@@ -26,7 +26,7 @@ return [
         /*
          * The webhook secret provider to use.
          */
-        'secret_provider' => \Signifly\Shopify\Webhooks\ConfigSecretProvider::class,
+        'secret_provider' => Signifly\Shopify\Webhooks\ConfigSecretProvider::class,
 
         /*
          * The shopify webhook secret.
