@@ -53,7 +53,7 @@ trait ManagesInventory
             'available_adjustment' => $availableAdjustment,
         ]);
 
-        return new ApiResource($response['inventory_level'], $this);
+        return new ApiResource($response->json(), $this);
     }
 
     public function connectInventoryLevel($inventoryItemId, $locationId, bool $relocate = false): ApiResource
