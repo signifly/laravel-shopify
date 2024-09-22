@@ -97,7 +97,7 @@ trait ManagesCustomers
 
     public function updateCustomerAddress($customerId, $addressId, $data): ApiResource
     {
-        return $this->updateResource('addresses', $addressId, $data, ['customers', $customerId]);
+        return $this->updateResource('addresses', $addressId, $data, ['customers', $customerId], 'customer_address');
     }
 
     public function deleteCustomerAddress($customerId, $addressId): void

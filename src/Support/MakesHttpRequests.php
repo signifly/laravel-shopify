@@ -102,12 +102,16 @@ trait MakesHttpRequests
         return new $resourceClass($response[$key], $this);
     }
 
-    protected function updateResource(string $resource, $resourceId, array $data, array $uriPrefix = []): ApiResource
+    protected function updateResource(string $resource, $resourceId, array $data, array $uriPrefix = [], string $responseKey = null): ApiResource
     {
         $key = Str::singular($resource);
         $resourceClass = $this->resourceClassFor($resource);
 
         $response = $this->put(implode('/', [...$uriPrefix, "{$resource}/{$resourceId}.json"]), [$key => $data]);
+
+        if (! empty($responseKey)) {
+            $key = $responseKey;
+        }
 
         return new $resourceClass($response[$key], $this);
     }
