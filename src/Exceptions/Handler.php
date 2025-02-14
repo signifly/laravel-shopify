@@ -2,6 +2,7 @@
 
 namespace Signifly\Shopify\Exceptions;
 
+use Illuminate\Support\Arr;
 use Illuminate\Http\Client\Response;
 
 class Handler implements ErrorHandlerInterface
@@ -17,7 +18,7 @@ class Handler implements ErrorHandlerInterface
         }
 
         if ($response->status() === 422) {
-            throw new ValidationException($response->json('errors', []));
+            throw new ValidationException(Arr::wrap($response->json('errors', [])));
         }
 
         if ($response->status() === 404) {
