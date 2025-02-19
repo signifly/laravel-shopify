@@ -2,8 +2,8 @@
 
 namespace Signifly\Shopify\Exceptions;
 
-use Illuminate\Support\Arr;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Arr;
 
 class Handler implements ErrorHandlerInterface
 {
