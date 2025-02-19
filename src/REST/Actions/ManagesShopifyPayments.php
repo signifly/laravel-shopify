@@ -13,7 +13,9 @@ trait ManagesShopifyPayments
 {
     public function getShopifyPaymentsBalance(): BalanceResource
     {
-        return $this->getResources('balance', $params, ['shopify_payments']);
+        $response = $this->get('shopify_payments/balance.json');
+
+        return new BalanceResource($response['balance'], $this);
     }
 
     public function getShopifyPaymentsDisputes(array $params = []): Collection

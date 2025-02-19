@@ -30,9 +30,9 @@ class ManagesShopifyPaymentsTest extends TestCase
             '*' => Http::response($this->fixture('balance.show')),
         ]);
 
-        $url = '/shopify_payments/balance';
+        $url = '/shopify_payments/balance.json';
 
-        $resource = $this->shopify->getShopifyPaymentsBalance([]);
+        $resource = $this->shopify->getShopifyPaymentsBalance();
 
         Http::assertSent(function (Request $request) use ($url) {
             $this->assertEquals($this->shopify->getBaseUrl().$url, $request->url());
